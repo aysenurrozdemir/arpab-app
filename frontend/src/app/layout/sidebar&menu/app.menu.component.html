@@ -1,0 +1,23 @@
+<ul class="layout-menu">
+    <li class="menu-button-container">
+        <button *ngIf="!isWideScreen" #menubutton (click)="layoutService.onMenuToggle()" class="p-link layout-menu-button layout-topbar-button mt-2">
+            <i class="pi pi-times"></i>
+        </button>
+    </li>
+
+        <li>
+            <a [routerLink]="['/dashboard']">
+                <img src="../../../assets/arpab-assets/arpab-icon.jpg"
+                     style="height: 130px; width: 160px;margin-left: 1.5rem; margin-bottom: 1rem"/>
+            </a>
+        </li>
+
+
+    <br><br>
+
+    <ng-container *ngFor="let item of model; let i = index;">
+        <li [index]="i" [item]="item" [root]="true" app-menuitem></li>
+        <li *ngIf="item.separator" class="menu-separator"></li>
+    </ng-container>
+
+</ul>

@@ -1,0 +1,419 @@
+ <div class="top-all-page">
+    <div style="display: inline-flex;">
+        <span class="pi pi-home" routerLink="/dashboard"></span>
+    </div>
+    <span class="font-medium ml-2">/ Strumenticem </span>
+</div>
+
+<p-toolbar styleClass="mb-4" class="col-12">
+    <ng-template pTemplate="left">
+        <button pButton pRipple style="max-width: 250px; font-size: 11px" label="AGGIUNGI NUOVO" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewData()"></button>
+        <button pButton pRipple style="max-width: 40px; font-size: 11px" [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDatas()" [disabled]="!selectedDatas || !selectedDatas.length"></button>
+    </ng-template>
+
+    <ng-template pTemplate="center">
+        <div class="search-container">
+        <span class="p-input-icon-left" style="max-width: 400px;">
+            <i class="pi pi-search" style="margin-right: 5px;"></i>
+            <input style="background-color: white;" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                   placeholder="Ricerca Id Stru"
+                   class="search-input"/>
+        </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="right" >
+        <!--        <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>-->
+        <button pButton pRipple label="Esporta Excel (Selezionato)" icon="pi pi-file-pdf" class="p-button-help p-button-sm mr-2" style="max-width: 250px" (click)="selectedExportExcel()"></button>
+
+        <button pButton pRipple label="Esporta Excel (Tutto)" icon="pi pi-file-excel" class="p-button-help p-button-sm" style="max-width: 200px" (click)="exportExcelAll()"></button>
+        <div class="custom-paginator-top ml-3">
+            <div class="p-d-flex p-jc-between p-ai-center">
+                <div class="p-d-flex p-ai-center">
+                    <label style="font-size: 16px; font-weight:600" for="rowsPerPage">Risultati: </label>
+                    <p-dropdown id="rowsPerPage" [options]="[5, 10, 20, 50]" [(ngModel)]="dt.rows"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toolbar>
+
+<p-scrollPanel [style]="{ width: '100%', height: '70vh' }">
+    <p-table appTranslateFilter #dt [value]="datas" [rows]="10" [paginator]="true" [globalFilterFields]="['id_stru']"
+             [(selection)]="selectedDatas" [rowHover]="true" dataKey="id_stru"
+             currentPageReportTemplate="Risultati {first} a {last} di {totalRecords}"  [showCurrentPageReport]="true"
+             [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-gridlines" class="custom-table">
+        <ng-template pTemplate="header">
+            <tr style="background-color: blue;">
+                <th style="text-align: center;background-color: lightgray">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="text-align: center;background-color: lightgray; padding: 0 5rem 0 5rem;">
+                    <p style="display: inline-flex"></p>
+                </th>
+                <th pSortableColumn="id_stru" style="text-align: center;background-color: lightgray">
+                    Id stru <p-sortIcon field="id_stru"></p-sortIcon>
+                </th>
+                <th pSortableColumn="ditta" style="text-align: center;background-color: lightgray">
+                    Ditta <p-sortIcon field="ditta"></p-sortIcon>
+                </th>
+                <th pSortableColumn="denominazione" style="text-align: center;background-color: lightgray">
+                    Denominazione <p-sortIcon field="denominazione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="statusstrumento" style="text-align: center;background-color: lightgray">
+                    Statusstrumento <p-sortIcon field="statusstrumento"></p-sortIcon>
+                </th>
+                <th pSortableColumn="modello" style="text-align: center;background-color: lightgray">
+                    Modello <p-sortIcon field="modello"></p-sortIcon>
+                </th>
+                <th pSortableColumn="serialnumber" style="text-align: center;background-color: lightgray">
+                    Serialnumber <p-sortIcon field="serialnumber"></p-sortIcon>
+                </th>
+                <th pSortableColumn="certificatotaratura" style="text-align: center;background-color: lightgray">
+                    Certificatotaratura <p-sortIcon field="certificatotaratura"></p-sortIcon>
+                </th>
+                <th pSortableColumn="datataratura" style="text-align: center;background-color: lightgray">
+                    Datataratura <p-sortIcon field="datataratura"></p-sortIcon>
+                </th>
+                <th pSortableColumn="datascadenza"style="text-align: center;background-color: lightgray">
+                    Datascadenza <p-sortIcon field="datascadenza"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sonda" style="text-align: center;background-color: lightgray">
+                    Sonda <p-sortIcon field="sonda"></p-sortIcon>
+                </th>
+                <th pSortableColumn="note" style="text-align: center;background-color: lightgray">
+                    Note <p-sortIcon field="note"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sede" style="text-align: center;background-color: lightgray">
+                    Sede <p-sortIcon field="sede"></p-sortIcon>
+                </th>
+                <th pSortableColumn="legenda" style="text-align: center;background-color: lightgray">
+                    Legenda <p-sortIcon field="legenda"></p-sortIcon>
+                </th>
+                <th pSortableColumn="altrenote" style="text-align: center;background-color: lightgray">
+                    Altrenote <p-sortIcon field="altrenote"></p-sortIcon>
+                </th>
+                <th pSortableColumn="ubicazione" style="text-align: center;background-color: lightgray">
+                    Ubicazione <p-sortIcon field="ubicazione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="ninventario" style="text-align: center;background-color: lightgray">
+                    Ninventario <p-sortIcon field="ninventario"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tipo" style="text-align: center;background-color: lightgray">
+                    Tipo <p-sortIcon field="tipo"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="id_stru"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="ditta"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="denominazione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="statusstrumento"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="modello"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="serialnumber"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="certificatotaratura"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="datataratura"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="datascadenza"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="sonda"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="note"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="sede"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="legenda"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="altrenote"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="ubicazione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="ninventario"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="tipo"></p-columnFilter>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nessun risultato trovato</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td style="text-align: center;"> <!-- Center align data -->
+                    <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primary mr-2" (click)="showData(data)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editData(data)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteData(data)"></button>
+                </td>
+                <td style="text-align: center;">
+                    {{data?.id_stru}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.ditta}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.denominazione}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.statusstrumento}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.modello}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.serialnumber}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.certificatotaratura}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.datataratura | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.datascadenza | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.sonda}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.note}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.sede}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.legenda}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.altrenote}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.ubicazione}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.ninventario}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.tipo}}
+                </td>
+            </tr>
+        </ng-template>
+
+    <!--    <ng-template pTemplate="summary">-->
+    <!--        <div class="flex align-items-center justify-content-between">-->
+    <!--            Ci sono {{datas ? datas.length : 0 }} risultati in totale-->
+    <!--        </div>-->
+    <!--    </ng-template>-->
+
+    </p-table>
+ </p-scrollPanel>
+
+<!-- FORM POPUP KISMI-->
+<p-dialog [(visible)]="newDialog || dataDialog" [style]="{width: '1000px'}" header="Add & Update Data" [modal]="true"
+          [maximizable]="false" [closable]="false">
+    <ng-template pTemplate="header">
+        <div class="p-dialog-header">
+            <span class="p-dialog-title">Aggiungi e Aggiorna dati</span>
+            <div class="p-dialog-header-icons">
+                <button type="button" class="p-dialog-header-icon p-link custom-maximize-button" (click)="maximizeDialog()">
+                    <span class="pi pi-window-maximize"></span>
+                </button>
+                <button type="button" class="p-dialog-header-icon p-link custom-close-button" (click)="hideDataDialog()">
+                    <span class="pi pi-times"></span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+    <form [formGroup]="dataForm" (ngSubmit)="saveData()" novalidate class="form-dialog" style="width: 100%">
+        <div class="field">
+            <label for="ditta" class="block">Ditta</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="ditta" />
+        </div>
+        <div class="field">
+            <label for="denominazione" class="block">Denominazione</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="denominazione" />
+        </div>
+        <div class="field">
+            <label for="statusstrumento" class="block">Statusstrumento</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="statusstrumento" />
+        </div>
+        <div class="field">
+            <label for="modello" class="block">Modello</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="modello" />
+        </div>
+        <div class="field">
+            <label for="serialnumber" class="block">Serialnumber</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="serialnumber" />
+        </div>
+        <div class="field">
+            <label for="certificatotaratura" class="block">Certificatotaratura</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="certificatotaratura" />
+        </div>
+        <div class="field">
+            <label for="datataratura" class="block">Datataratura</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="datataratura" dateFormat="dd-mm-yy" [showIcon]="true" ></p-calendar>
+        </div>
+        <div class="field">
+            <label for="datascadenza" class="block">Datascadenza</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="datascadenza" dateFormat="dd-mm-yy" [showIcon]="true" ></p-calendar>
+        </div>
+        <div class="field">
+            <label for="sonda" class="block">Sonda</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="sonda" />
+        </div>
+        <div class="field">
+            <label for="note" class="block">Note</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="note" />
+        </div>
+        <div class="field">
+            <label for="sede" class="block">Sede</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="sede" />
+        </div>
+        <div class="field">
+            <label for="legenda" class="block">Legenda</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="legenda" />
+        </div>
+        <div class="field">
+            <label for="altrenote" class="block">Altrenote</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="altrenote" />
+        </div>
+        <div class="field">
+            <label for="ubicazione" class="block">Ubicazione</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="ubicazione" />
+        </div>
+        <div class="field">
+            <label for="ninventario" class="block">Ninventario</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="ninventario" />
+        </div>
+        <div class="field">
+            <label for="tipo" class="block">Tipo</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="tipo" />
+        </div>
+
+        <div class="actions">
+            <button pButton type="button" label="Annulla" style="background-color: red;" (click)="hideDataDialog()"></button>
+            <button pButton type="submit" label="Invia" style="background-color: green;"[disabled]="dataForm.invalid"></button>
+        </div>
+
+    </form>
+</p-dialog>
+
+<!-- VIEW POP UP - EYE-ICON-->
+<p-dialog  [(visible)]="dataShowDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+           [style]="dialogStyles"
+           [contentStyle]="dialogContentStyles">
+    <div style="overflow-y: auto;">
+        <table class="vertical-table" style="width: 100%">
+            <tbody>
+            <tr>
+                <td class="id_stru">Id stru</td>
+                <td>{{selectedData?.id_stru}}</td>
+            </tr>
+            <tr>
+                <td class="ditta">Ditta</td>
+                <td>{{selectedData?.ditta}}</td>
+            </tr>
+            <tr>
+                <td class="denominazione">Denominazione</td>
+                <td>{{selectedData?.denominazione}}</td>
+            </tr>
+            <tr>
+                <td class="statusstrumento">Statusstrumento</td>
+                <td>{{selectedData?.statusstrumento}}</td>
+            </tr>
+            <tr>
+                <td class="modello">Modello</td>
+                <td>{{selectedData?.modello}}</td>
+            </tr>
+            <tr>
+                <td class="serialnumber">Serialnumber</td>
+                <td>{{selectedData?.serialnumber}}</td>
+            </tr>
+            <tr>
+                <td class="certificatotaratura">Certificatotaratura</td>
+                <td>{{selectedData?.certificatotaratura}}</td>
+            </tr>
+            <tr>
+                <td class="datataratura">Datataratura</td>
+                <td>{{selectedData?.datataratura | date:'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+                <td class="datascadenza">Datascadenza</td>
+                <td>{{selectedData?.datascadenza | date:'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+                <td class="sonda">Sonda</td>
+                <td>{{selectedData?.sonda}}</td>
+            </tr>
+            <tr>
+                <td class="note">Note</td>
+                <td>{{selectedData?.note}}</td>
+            </tr>
+            <tr>
+                <td class="sede">Sede</td>
+                <td>{{selectedData?.sede}}</td>
+            </tr>
+            <tr>
+                <td class="legenda">Legenda</td>
+                <td>{{selectedData?.legenda}}</td>
+            </tr>
+            <tr>
+                <td class="altrenote">Altrenote</td>
+                <td>{{selectedData?.altrenote}}</td>
+            </tr>
+            <tr>
+                <td class="ubicazione">Ubicazione</td>
+                <td>{{selectedData?.ubicazione}}</td>
+            </tr>
+            <tr>
+                <td class="ninventario">Ninventario</td>
+                <td>{{selectedData?.ninventario}}</td>
+            </tr>
+            <tr>
+                <td class="tipo">Tipo</td>
+                <td>{{selectedData?.tipo}}</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="actions">
+            <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;"
+                    pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneData()"></button>
+            <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;"
+                    pButton type="button" label="Annulla" (click)="hideShowDialog()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog class="custom-confirm-dialog" [style]="{width: '450px', height: '220px'}"></p-confirmDialog>

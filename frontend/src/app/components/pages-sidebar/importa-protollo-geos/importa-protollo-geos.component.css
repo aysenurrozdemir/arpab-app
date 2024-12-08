@@ -1,0 +1,72 @@
+p-fileUpload {
+    margin: 20px;
+    display: block;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+.pi.pi-home {
+    color: blue; /* Set the color to blue */
+    font-size: 20px; /* Set the font size to 100px */
+}
+.file-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    height: 50px;
+    max-height: 70px;
+}
+
+.file-item button {
+    margin-left: 8px;
+}
+.file-upload-container {
+    gap: 10px;
+}
+.custom-file-upload {
+    display: inline-block;
+    padding: 10px 20px;
+    cursor: pointer;
+    background-color: rgb(25,25,112); /* Buton rengi */
+    color: white; /* Buton üzerindeki yazı rengi */
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    text-align: center;
+    width: 100%;
+    height: 50px;
+    max-height: 50px;
+    align-content: center;
+    font-size: 20px;
+}
+
+.custom-file-upload input[type="file"] {
+    display: none; /* Gerçek input elemanını gizle */
+}
+.carica-button {
+    background-color: rgb(25,135,84);
+    height: 50px;
+    max-height: 50px;
+    border: 1px solid #ccc;
+    align-content: center;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    color: white;
+    place-content: center;
+    border-radius: 5px;
+}
+.carica-button-top{
+    height: 50px;
+    max-height: 50px;
+    border: 1px solid #ccc;
+    align-content: center;
+    text-align: center;
+    width: 100%;
+    font-size: 20px;
+    color: white;
+    place-content: center;
+    border-radius: 5px;
+    cursor: pointer;
+}

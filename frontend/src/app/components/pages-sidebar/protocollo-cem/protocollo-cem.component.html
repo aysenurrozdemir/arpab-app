@@ -1,0 +1,1385 @@
+<div class="top-all-page">
+    <div style="display: inline-flex;">
+        <span class="pi pi-home" routerLink="/dashboard"></span>
+    </div>
+    <span class="font-medium ml-2">/ Protocolli CEM </span>
+</div>
+
+<!-- <button (click)="downloadPdfFile()">Download as PDF notadigos</button>-->
+<!-- <app-nota-digos-pdf style="display: none"></app-nota-digos-pdf>-->
+ 
+<p-toolbar class="col-12">
+    <ng-template pTemplate="left">
+        <button pButton pRipple style="max-width: 250px; font-size: 11px" label="AGGIUNGI NUOVO" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewData()"></button>
+        <button pButton pRipple style="max-width: 40px; font-size: 11px" [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDatas()" [disabled]="!selectedDatas || !selectedDatas.length"></button>
+    </ng-template>
+
+    <ng-template pTemplate="center">
+        <div class="search-container">
+        <span class="p-input-icon-left" style="max-width: 400px;">
+            <i class="pi pi-search" style="margin-right: 5px;"></i>
+            <input style="background-color: white;" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                   placeholder="Ricerca Protocollo"
+                   class="search-input"/>
+        </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="right" >
+        <!-- <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button> -->
+        <button pButton pRipple label="Esporta Excel (Selezionato)" icon="pi pi-file-pdf" class="p-button-help p-button-sm mr-2" style="max-width: 250px" (click)="selectedExportExcel()"></button>
+
+        <button pButton pRipple label="Esporta Excel (Tutto)" icon="pi pi-file-excel" class="p-button-help p-button-sm" style="max-width: 200px" (click)="exportExcelAll()"></button>
+        <div class="custom-paginator-top ml-3">
+            <div class="p-d-flex p-jc-between p-ai-center">
+                <div class="p-d-flex p-ai-center">
+                    <label style="font-size: 16px; font-weight:600" for="rowsPerPage">Risultati: </label>
+                    <p-dropdown id="rowsPerPage" [options]="[5, 10, 20, 50]" [(ngModel)]="dt.rows"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toolbar>
+
+<p-scrollPanel [style]="{ width: '100%', height: '70vh' }">
+    <p-table #dt appTranslateFilter [value]="datas" [rows]="10" [paginator]="true" [globalFilterFields]="['protocollo']"
+             [(selection)]="selectedDatas" [rowHover]="true" dataKey="protocollo"
+             currentPageReportTemplate="Risultati {first} a {last} di {totalRecords}" [showCurrentPageReport]="true"
+              styleClass="p-datatable-gridlines" class="custom-table">
+        <ng-template pTemplate="header">
+            <tr style="background-color: blue;">
+                <th style="text-align: center;background-color: lightgray">
+                </th>
+                <th style="text-align: center;background-color: lightgray">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="text-align: center;background-color: rgb(52, 58, 64); padding: 0 5rem 0 5rem;">
+                    <p style="display: inline-flex"></p>
+                </th>
+                <th pSortableColumn="senso" style="text-align: center;background-color: lightgray">
+                    Senso <p-sortIcon field="senso"></p-sortIcon>
+                </th>
+                <th pSortableColumn="data" style="text-align: center;background-color: lightgray">
+                    Data <p-sortIcon field="data"></p-sortIcon>
+                </th>
+                <th pSortableColumn="protocollo" style="text-align: center;background-color: lightgray">
+                    Protocollo <p-sortIcon field="protocollo"></p-sortIcon>
+                </th>
+                <th pSortableColumn="mittente" class="mittente" style="text-align: center;background-color: lightgray">
+                    Mittente <p-sortIcon field="mittente"></p-sortIcon>
+                </th>
+                <th pSortableColumn="destinatario" class="destinatario" style="text-align: center;background-color: lightgray">
+                    Destinatario <p-sortIcon field="destinatario"></p-sortIcon>
+                </th>
+                <th pSortableColumn="oggetto" class="oggetto" style="text-align: center;background-color: lightgray">
+                    Oggetto <p-sortIcon field="oggetto"></p-sortIcon>
+                </th>
+                <th pSortableColumn="protcollegato" style="text-align: center;background-color: lightgray">
+                    Protocollo Collegato <p-sortIcon field="protcollegato"></p-sortIcon>
+                </th>
+                <th pSortableColumn="numprotcoll" style="text-align: center;background-color: lightgray">
+                    Num. Prot. Coll. <p-sortIcon field="numprotcoll"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tematica" style="text-align: center;background-color: lightgray">
+                    Tematica <p-sortIcon field="tematica"></p-sortIcon>
+                </th>
+                <th pSortableColumn="categoria" style="text-align: center;background-color: lightgray">
+                    Categoria <p-sortIcon field="categoria"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sottocategoria" style="text-align: center;background-color: lightgray">
+                    Sottocategoria <p-sortIcon field="sottocategoria"></p-sortIcon>
+                </th>
+                <th pSortableColumn="numcodsito" style="text-align: center;background-color: lightgray">
+                    Codice Cem <p-sortIcon field="numcodsito"></p-sortIcon>
+                </th>
+                <th pSortableColumn="numcodcar" style="text-align: center;background-color: lightgray">
+                    Codice Rumore-Cem <p-sortIcon field="numcodcar"></p-sortIcon>
+                </th>
+                <th pSortableColumn="numcodprog" style="text-align: center;background-color: lightgray">
+                    Codice Ufficio <p-sortIcon field="numcodprog"></p-sortIcon>
+                </th>
+                <th pSortableColumn="azione" style="text-align: center;background-color: lightgray">
+                    Azione <p-sortIcon field="azione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="azionedup" style="text-align: center;background-color: lightgray">
+                    Azione Duplicata <p-sortIcon field="azionedup"></p-sortIcon>
+                </th>
+                <th pSortableColumn="protriferime" style="text-align: center;background-color: lightgray">
+                    Prot. di Riferimento Azione Duplicata <p-sortIcon field="protriferime"></p-sortIcon>
+                </th>
+                <th pSortableColumn="scadenza" style="text-align: center;background-color: lightgray">
+                    Scadenza <p-sortIcon field="scadenza"></p-sortIcon>
+                </th>
+                <th pSortableColumn="scadenza2" style="text-align: center;background-color: lightgray">
+                    Scadenza2 <p-sortIcon field="scadenza2"></p-sortIcon>
+                </th>
+                <th pSortableColumn="cdsdata" style="text-align: center;background-color: lightgray">
+                    Cdsdata <p-sortIcon field="cdsdata"></p-sortIcon>
+                </th>
+                <th pSortableColumn="cdsora" style="text-align: center;background-color: lightgray">
+                    Cdsora <p-sortIcon field="cdsora"></p-sortIcon>
+                </th>
+                <th pSortableColumn="subassegnazione" style="text-align: center;background-color: lightgray">
+                    Subassegnazione <p-sortIcon field="subassegnazione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="note" class="note" style="text-align: center;background-color: lightgray">
+                    Note <p-sortIcon field="note"></p-sortIcon>
+                </th>
+                <th pSortableColumn="funzionario" style="text-align: center;background-color: lightgray">
+                    Lavorato Funzionario <p-sortIcon field="funzionario"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dirigente" style="text-align: center;background-color: lightgray">
+                    Lavorato Dirigente <p-sortIcon field="dirigente"></p-sortIcon>
+                </th>
+                <th pSortableColumn="commriscontro" style="text-align: center;background-color: lightgray">
+                    Commento Riscontro <p-sortIcon field="commriscontro"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dpia" style="text-align: center;background-color: lightgray">
+                    Dpia <p-sortIcon field="dpia"></p-sortIcon>
+                </th>
+                <th pSortableColumn="aie" style="text-align: center;background-color: lightgray">
+                    Aie <p-sortIcon field="aie"></p-sortIcon>
+                </th>
+                <th pSortableColumn="notadigos" style="text-align: center;background-color: lightgray">
+                    Nota Digos <p-sortIcon field="notadigos"></p-sortIcon>
+                </th>
+                <th pSortableColumn="congiunta" style="text-align: center;background-color: lightgray">
+                    Congiunta <p-sortIcon field="congiunta"></p-sortIcon>
+                </th>
+                <th pSortableColumn="simulazione" style="text-align: center;background-color: lightgray">
+                    Simulazione <p-sortIcon field="simulazione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="autore" style="text-align: center;background-color: lightgray">
+                    Autore <p-sortIcon field="autore"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="senso"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="formattedData"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="protocollo"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="mittente"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="destinatario"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray; text-align: center;">
+                    <p-columnFilter type="text" field="oggetto"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="protcollegato"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numprotcoll"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="tematica"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="categoria"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="sottocategoria"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numcodsito"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numcodcar"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numcodprog"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="azione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="azionedup"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="protriferime"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="scadenza"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="scadenza2"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="cdsdata"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="cdsora"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="subassegnazione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="note"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="funzionario"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="dirigente"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="commriscontro"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="dpia"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="aie"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="notadigos"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="congiunta"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="simulazione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="autore"></p-columnFilter>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nessun dato trovato</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td style="text-align: center;">
+                    <button type="button" pButton pRipple [pRowToggler]="data" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td style="text-align: center;"> <!-- Center align data -->
+                    <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primary mr-2" (click)="showData(data)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editData(data)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteData(data)"></button>
+                </td>
+                <td style="text-align: center;">
+                    {{data?.senso}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.data | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.protocollo}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.mittente}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.destinatario}}
+                </td>
+                <td id="oggettoTh-protocollocem" style="text-align: center; white-space: normal; word-wrap: break-word;">
+                    {{data?.oggetto}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.protcollegato}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numprotcoll}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.tematica}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.categoria}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.sottocategoria}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numcodsito}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numcodcar}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numcodprog}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.azione}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.azionedup}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.protriferime}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.scadenza | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.scadenza2 | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.cdsdata | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.cdsora}}
+                </td>
+                <td style="text-align: center;">
+                    {{ parseDataFields(data?.subassegnazione) }}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.note}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.funzionario}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.dirigente}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.commriscontro}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.dpia}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.aie}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.notadigos}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.congiunta}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.simulazione}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.autore}}
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-data>
+           <tr>
+               <td colspan="12">
+                   <div class="expanded-row">
+                       <strong>Protocollo Collegato:&nbsp;&nbsp;&nbsp;&nbsp;</strong>{{ data?.protcollegato }}
+                   </div>
+               </td>
+           </tr>
+           <tr>
+               <td colspan="12">
+                   <div class="expanded-row">
+                       <strong>Num. Prot. Coll.:&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                       <ng-container *ngFor="let prot of parseDataFields(data?.numprotcoll)">
+                           <button style="margin-right: 5px; margin-bottom: 0;" (click)="getProtocolloForClickedPopup(prot)" pButton type="button" icon="pi pi-external-link" label="{{ prot }}" style="margin-right: 5px; margin-bottom: 5px;"></button>
+                       </ng-container>
+                   </div>
+               </td>
+           </tr>
+            <tr>
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>Azione:&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                        {{ parseDataFields(data?.azione) }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>Azione Duplicata:&nbsp;&nbsp;&nbsp;&nbsp;</strong>{{ data?.azionedup }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>Prot. di Riferimento Azione Duplicata:&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                        <ng-container *ngFor="let prot of parseDataFields(data?.protriferime)">
+                            <button style="margin-right: 5px; margin-bottom: 0;" (click)="getProtocolloForClickedPopup(prot)" pButton type="button" icon="pi pi-external-link" label="{{ prot }}" style="margin-right: 5px; margin-bottom: 5px;"></button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>Codice Cem:&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                        <ng-container *ngFor="let numcodsito of parseDataFields(data?.numcodsito)">
+                            <button (click)="getCodiceSitoGestoriForClickedPopup(numcodsito)" pButton type="button" icon="pi pi-external-link" label="{{ numcodsito }}" style="margin-right: 5px; margin-bottom: 5px;"></button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>Codice Rumore-Cem:&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                        <ng-container *ngFor="let numcodcar of data?.numcodcar">
+                            <button (click)="getElencoRumoreForClickedPopup(numcodcar)" pButton type="button" icon="pi pi-external-link" label="{{ numcodcar }}" style="margin-right: 5px; margin-bottom: 5px;"></button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>Codice Ufficio:&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                        <ng-container *ngFor="let numcodprog of data?.numcodprog">
+                            <button (click)="getElencoUffForClickedPopup(numcodprog)" pButton type="button" icon="pi pi-external-link" label="{{ numcodprog }}" style="margin-right: 5px; margin-bottom: 5px;"></button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+ </p-scrollPanel>
+
+<!-- FORM POPUP KISMI-->
+<p-dialog [(visible)]="newDialog || dataDialog" [style]="{width: '1000px'}" header="Add & Update Data" [modal]="true"
+          [maximizable]="false" [closable]="false"
+          (onHide)="onHideDialog()">
+    <ng-template pTemplate="header">
+        <div class="p-dialog-header">
+            <span class="p-dialog-title">Aggiungi e Aggiorna dati</span>
+            <div class="p-dialog-header-icons">
+                <button type="button" class="p-dialog-header-icon p-link custom-maximize-button" (click)="maximizeDialog()">
+                    <span class="pi pi-window-maximize"></span>
+                </button>
+                <button type="button" class="p-dialog-header-icon p-link custom-close-button" (click)="hideDataDialog()">
+                    <span class="pi pi-times"></span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+    <form [formGroup]="dataForm" (ngSubmit)="saveData()" novalidate class="form-dialog">
+        <div class="field">
+            <label for="senso" class="block">Senso</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="senso"  [options]="sensoOptions"
+                        optionLabel="valore" optionValue="valore"
+                        [showClear]="true" placeholder="Seleziona">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label for="data" class="block">Data</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="data" dateFormat="dd-mm-yy" [showIcon]="true" ></p-calendar>
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="protocollo" class="block">Protocollo</label><strong style="color:red">*</strong>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="protocollo" />
+        </div>
+        <div class="field">
+            <label for="autore" class="block">Autore</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="autore" />
+        </div>
+        <div class="field">
+            <label for="mittente" class="block">Mittente</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="mittente" />
+        </div>
+        <div class="field">
+            <label for="destinatario" class="block">Destinatario</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="destinatario" />
+        </div>
+        <div class="field">
+            <label for="oggetto" class="block">Oggetto</label>
+            <textarea *ngIf="!isDataReadonly" pInputTextarea formControlName="oggetto" rows="4" cols="30"></textarea>
+        </div>
+        <div class="fieldSiNo">
+            <label for="protcollegato">Protocollo Collegato
+                <button disabled="true" class="info-button p-button p-button-info p-button-sm"
+                        pTooltip="Se SENSO è Interno OUT o Uscita OUT Verificare le scadenze dei protocolli collegati" tooltipPosition="top">?</button>
+            </label>
+            <div style="padding-left: 10px;">
+                <span id="si">SI</span>
+                <p-radioButton formControlName="protcollegato" value="SI" inputId="SI"></p-radioButton>
+            </div>
+            <div>
+                <span id="no">NO</span>
+                <p-radioButton formControlName="protcollegato" value="NO" inputId="NO"></p-radioButton>
+            </div>
+        </div>
+
+        <div class="field">
+            <label for="numprotcoll" class="block">Num. Prot. Coll.</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                        formControlName="numprotcoll"  [options]="numprotcollOptions"
+                           [showClear]="true" placeholder="Selezione multipla">
+            </p-multiSelect>
+        </div>
+        <div class="fieldSiNo">
+            <label for="riscontrogeos" class="block">Richiesta</label>
+            <div style="padding-left: 10px;">
+                <span id="DTS">DTS</span>
+                <p-radioButton formControlName="riscontrogeos" value="DTS" inputId="DTS"></p-radioButton>
+            </div>
+            <div>
+                <span id="DG">DG</span>
+                <p-radioButton formControlName="riscontrogeos" value="DG" inputId="DG"></p-radioButton>
+            </div>
+            <div>
+                <span id="NESSUNA">NESSUNA</span>
+                <p-radioButton formControlName="riscontrogeos" value="NESSUNA" inputId="NESSUNA"></p-radioButton>
+            </div>
+        </div>
+        <div class="field">
+            <label for="subassegnazione" class="block">Subassegnazione</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                        formControlName="subassegnazione"  [options]="subassegnazioneOptions"
+                        [showClear]="true" placeholder="Selezione Multipla"></p-multiSelect>
+        </div>
+        <div class="field">
+            <label for="note" class="block">Note</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="note" />
+        </div>
+        <div class="field">
+            <label for="tematica" class="block">Tematica</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="tematica"  [options]="tematicaOptions"
+                        optionLabel="tipotematica" optionValue="tipotematica"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+        <div class="field" *ngIf="dataForm.get('tematica').value == 'NON DI COMPETENZA' || dataForm.get('tematica').value == ''">
+            <label for="categoria" class="block">Categoria</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="categoria"
+                        optionLabel="catcem" optionValue="catcem"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+        <div class="field" *ngIf="dataForm.get('tematica').value == 'CEM'">
+            <label for="categoria" class="block">Categoria</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="categoria"  [options]="categoriaOptions"
+                        optionLabel="catcem" optionValue="catcem"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+        <div class="field" *ngIf="dataForm.get('tematica').value == 'RUMORE' || dataForm.get('tematica').value == 'RUMORE CEM'">
+            <label for="categoria" class="block">Categoria</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="categoria"  [options]="categoriaOptions"
+                        optionLabel="catrum" optionValue="catrum"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+        <div class="field" *ngIf="dataForm.get('tematica').value == 'UFFICIO'">
+            <label for="categoria" class="block">Categoria</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="categoria"  [options]="categoriaOptions"
+                        optionLabel="catuff" optionValue="catuff"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+
+
+        <div class="field" *ngIf="isTematicaNonCompetenzaOrEmpty()">
+            <label for="sottocategoria" class="block">Sottocategoria</label>
+            <p-dropdown *ngIf="!isDataReadonly" formControlName="sottocategoria"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+        <div class="field" *ngIf="shouldShowEmptyCategorie('CEM')">
+            <label for="sottocategoria" class="block">Sottocategoria</label>
+            <p-dropdown *ngIf="!isDataReadonly" formControlName="sottocategoria"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+        <div class="field" *ngIf="shouldShowDropdown('CEM', 'SRB', 'RADIO', 'TV')">
+            <label for="sottocategoria" class="block">Sottocategoria</label>
+            <p-dropdown *ngIf="!isDataReadonly" formControlName="sottocategoria"
+                        [options]="sottocategoriaOptions" optionLabel="sottcatcem"
+                        optionValue="sottcatcem" [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+
+        <div class="field" *ngIf="shouldShowDropdown('CEM', 'OSSERVATORIO', 'ESPOSTO', 'Accesso agli Atti')">
+            <label for="sottocategoria" class="block">Sottocategoria</label>
+            <p-dropdown *ngIf="!isDataReadonly" formControlName="sottocategoria"
+                        [options]="sottocategoriaOptions1" optionLabel="sottcatcem1"
+                        optionValue="sottcatcem1" [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+
+        <div class="field" *ngIf="shouldShowDropdown('CEM', 'PROGETTO', 'CONVENZIONE')">
+            <label for="sottocategoria" class="block">Sottocategoria</label>
+            <p-dropdown *ngIf="!isDataReadonly" formControlName="sottocategoria"
+                        [options]="sottocategoriaOptions2" optionLabel="sottcatcem2"
+                        optionValue="sottcatcem2" [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+
+        <div class="field" *ngIf="shouldShowDropdown('CEM', 'TAVOLO TECNICO', 'SNPA', 'CATASTO', 'ALTRO')">
+            <label for="sottocategoria" class="block">Sottocategoria</label>
+            <p-dropdown *ngIf="!isDataReadonly" formControlName="sottocategoria"
+                        [options]="sottocategoriaOptions3" optionLabel="sottcatcem3"
+                        optionValue="sottcatcem3" [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+
+        <div class="field" *ngIf="shouldShowDropdown('CEM', 'ELF')">
+            <label for="sottocategoria" class="block">Sottocategoria</label>
+            <p-dropdown *ngIf="!isDataReadonly" formControlName="sottocategoria"
+                        [options]="sottocategoriaOptions4" optionLabel="sottcatcem4"
+                        optionValue="sottcatcem4" [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+
+        <div class="field" *ngIf="dataForm.get('tematica').value == 'RUMORE' || dataForm.get('tematica').value == 'RUMORE CEM'">
+            <label for="sottocategoria" class="block">Sottocategoria</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="sottocategoria" [options]="sottocategoriaOptionsRum"
+                        optionLabel="sottcatrum" optionValue="sottcatrum"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+        <div class="field" *ngIf="dataForm.get('tematica').value == 'UFFICIO'">
+            <label for="sottocategoria" class="block">Sottocategoria</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="sottocategoria" [options]="sottocategoriaOptionsUff"
+                        optionLabel="sottcatuff" optionValue="sottcatuff"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+        </div>
+
+        <div class="field">
+            <label for="numcodsito" class="block">Codice Cem</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                            formControlName="numcodsito"  
+                            [options]="numcodsitoOptions"
+                            [filter]="true"
+                            [showClear]="true" 
+                            placeholder="Selezione Multipla">
+            </p-multiSelect>
+        </div>
+        <div class="field">
+            <label for="numcodcar" class="block">Codice Rumore-Cem</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                           formControlName="numcodcar"  
+                           [options]="elencorumoreOptions"
+                           [showClear]="true" 
+                           placeholder="Selezione Multipla">
+            </p-multiSelect>
+        </div>
+        <div class="field">
+            <label for="numcodprog" class="block">Codice Ufficio</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                           formControlName="numcodprog"  
+                           [options]="elencoufficioOptions"
+                           [showClear]="true" 
+                           [filter]="true"
+                           placeholder="Selezione Multipla">
+            </p-multiSelect>
+        </div>
+
+        <div class="field">
+            <label for="azione" class="block">Azione</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                        formControlName="azione"  [options]="azioneOptions"
+                        [showClear]="true" placeholder="Selezione Multipla"></p-multiSelect>
+        </div>
+        <div class="fieldSiNo">
+            <label for="azionedup">Azione Duplicata</label>
+            <div style="padding-left: 10px;">
+                <span id="si">SI</span>
+                <p-radioButton formControlName="azionedup" value="SI" inputId="SI"></p-radioButton>
+            </div>
+            <div>
+                <span id="no">NO</span>
+                <p-radioButton formControlName="azionedup" value="NO" inputId="NO"></p-radioButton>
+            </div>
+        </div>
+        <div class="field">
+            <label for="protriferime" class="block">Prot. di Riferimento Azione Duplicata</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                        formControlName="protriferime" [options]="protriferimeOptions"
+                        [showClear]="true" placeholder="Selezione Multipla"></p-multiSelect>
+        </div>
+
+        <div class="fieldSiNo">
+            <label for="aie">AIE</label>
+            <div style="padding-left: 10px;">
+                <span id="si">SI</span>
+                <p-radioButton formControlName="aie" value="SI" inputId="SI"></p-radioButton>
+            </div>
+            <div>
+                <span id="no">NO</span>
+                <p-radioButton formControlName="aie" value="NO" inputId="NO"></p-radioButton>
+            </div>
+        </div>
+
+        <div class="fieldSiNo">
+            <label for="dpia">DPIA</label>
+            <div style="padding-left: 10px;">
+                <span id="si">SI</span>
+                <p-radioButton formControlName="dpia" value="SI" inputId="SI"></p-radioButton>
+            </div>
+            <div>
+                <span id="no">NO</span>
+                <p-radioButton formControlName="dpia" value="NO" inputId="NO"></p-radioButton>
+            </div>
+        </div>
+
+        <div class="fieldSiNo">
+            <label for="congiunta">Congiunta</label>
+            <div style="padding-left: 10px;">
+                <span id="si">SI</span>
+                <p-radioButton formControlName="congiunta" value="SI" inputId="SI"></p-radioButton>
+            </div>
+            <div>
+                <span id="no">NO</span>
+                <p-radioButton formControlName="congiunta" value="NO" inputId="NO"></p-radioButton>
+            </div>
+        </div>
+        <div class="fieldSiNo">
+            <label for="simulazione">Simulazione</label>
+            <div style="padding-left: 10px;">
+                <span id="si">SI</span>
+                <p-radioButton formControlName="simulazione" value="SI" inputId="SI"></p-radioButton>
+            </div>
+            <div>
+                <span id="no">NO</span>
+                <p-radioButton formControlName="simulazione" value="NO" inputId="NO"></p-radioButton>
+            </div>
+        </div>
+        <div class="field">
+            <label for="statoimpianto" class="block">Statoimpianto</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="statoimpianto"  [options]="statoimpiantoOptions"
+                        optionLabel="valore" optionValue="valore"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+            <span></span><span class="right-0">ATTIVATO: Sottocategoria Attivazione / DISATTIVATO: Sottocategoria Dismissione/Spegnimento</span>
+
+        </div>
+        <div class="field">
+            <label for="statoprocedura" class="block">Stato Procedura</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="statoprocedura"  [options]="statoproceduraOptions"
+                        optionLabel="valore" optionValue="valore"
+                        [showClear]="true" placeholder="Seleziona"></p-dropdown>
+            <span></span><span class="right-0">IN ISTRUTTORIA: Sottocategoria Art. 44/45 Tipologia Parere / IN AUTORIZZATO ARPAB: Sottocategoria Art. 44/45 Tipologia Parere OUT</span>
+        </div>
+        <div class="field">
+            <label for="scadenza" class="block">Scadenza</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="scadenza" dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
+        </div>
+        <div class="field">
+            <label for="scadenza2" class="block">Scadenza2</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="scadenza2" dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
+        </div>
+        <div class="field">
+            <label for="cdsdata" class="block">Cdsdata</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="cdsdata" dateFormat="dd.mm.yy" [showIcon]="true"></p-calendar>
+        </div>
+        <div class="field">
+            <label for="cdsora" class="block">Cdsora</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="cdsora" />
+        </div>
+        <div class="field">
+            <label for="noteazione" class="block">Note su Azione</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="noteazione" />
+        </div>
+        <div class="fieldSiNo">
+            <label for="notadigos">Notadigos
+                <button disabled="true" class="info-button p-button p-button-info p-button-sm"
+                        pTooltip="Attenzione" tooltipPosition="top">?</button>
+            </label>
+            <div style="padding-left: 10px;">
+                <span id="si">SI</span>
+                <p-radioButton formControlName="notadigos" value="SI" inputId="SI"></p-radioButton>
+            </div>
+            <div>
+                <span id="no">NO</span>
+                <p-radioButton formControlName="notadigos" value="NO" inputId="NO"></p-radioButton>
+            </div>
+            <div>
+                <span class="right-0">Fare la Nota Digos se Matera 5g</span>
+            </div>
+        </div>
+        <div class="fieldSiNo">
+            <label for="funzionario">Lavorato Funzionario</label>
+            <div style="padding-left: 10px;">
+                <span id="lavorato">LAVORATO</span>
+                <p-radioButton formControlName="funzionario" value="LAVORATO" inputId="LAVORATO"></p-radioButton>
+            </div>
+            <div>
+                <span id="nonLavorato">NON LAVORATO</span>
+                <p-radioButton formControlName="funzionario" value="NON LAVORATO" inputId="NON LAVORATO"></p-radioButton>
+            </div>
+        </div>
+        <div class="fieldSiNo">
+            <label for="dirigente">Lavorato Dirigente</label>
+            <div style="padding-left: 10px;">
+                <span id="lavorato">LAVORATO</span>
+                <p-radioButton formControlName="dirigente" value="LAVORATO" inputId="LAVORATO"></p-radioButton>
+            </div>
+            <div>
+                <span id="nonLavorato">NON LAVORATO</span>
+                <p-radioButton formControlName="dirigente" value="NON LAVORATO" inputId="NON LAVORATO"></p-radioButton>
+            </div>
+        </div>
+        <div class="field">
+            <label for="commriscontro" class="block">Commento Riscontro</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="commriscontro" />
+        </div>
+        <div class="actions">
+            <button pButton type="button" label="Annulla" style="background-color: red;" (click)="hideDataDialog()"></button>
+            <button pButton type="submit" label="Invia" style="background-color: green;" [disabled]="dataForm.invalid"></button>
+        </div>
+
+    </form>
+</p-dialog>
+
+<!-- VIEW POP UP - EYE-ICON-->
+ <p-dialog [(visible)]="dataShowDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"  [style]="dialogStyles"
+           [contentStyle]="dialogContentStyles">
+     <div>
+         <table class="vertical-table" style="width: 100%">
+            <tbody>
+                <tr>
+                    <td class="senso">Senso</td>
+                    <td style="white-space: normal;">{{selectedData?.senso}}</td>
+                </tr>
+                <tr>
+                    <td class="data">Data</td>
+                    <td style="white-space: normal;">{{selectedData?.data | date:'dd-MM-yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td class="protocollo">Protocollo</td>
+                    <td style="white-space: normal;">{{selectedData?.protocollo}}</td>
+                </tr>
+                <tr>
+                    <td class="autore">Autore</td>
+                    <td style="white-space: normal;">{{selectedData?.autore}}</td>
+                </tr>
+                <tr>
+                    <td class="mittente">Mittente</td>
+                    <td style="white-space: normal;">{{selectedData?.mittente}}</td>
+                </tr>
+                <tr>
+                    <td class="destinatario">Destinatario</td>
+                    <td style="white-space: normal;">{{selectedData?.destinatario}}</td>
+                </tr>
+                <tr>
+                    <td class="oggetto">Oggetto</td>
+                    <td style="white-space: normal;">{{selectedData?.oggetto}}</td>
+                </tr>
+                <tr>
+                    <td class="protcollegato">Protocollo Collegato</td>
+                    <td style="white-space: normal;">{{selectedData?.protcollegato}}</td>
+                </tr>
+                <tr>
+                    <td class="numprotcoll">Num. Prot. Coll.</td>
+                    <td style="white-space: normal;">{{selectedData?.numprotcoll}}</td>
+                </tr>
+                <tr>
+                    <td class="subassegnazione">Subassegnazione</td>
+                    <td style="white-space: normal;">{{parseDataFields(selectedData?.subassegnazione)}}</td>
+                </tr>
+                <tr>
+                    <td class="note">Note</td>
+                    <td style="white-space: normal;">{{selectedData?.note}}</td>
+                </tr>
+                <tr>
+                    <td class="tematica">Tematica</td>
+                    <td style="white-space: normal;">{{selectedData?.tematica}}</td>
+                </tr>
+                <tr>
+                    <td class="categoria">Categoria</td>
+                    <td style="white-space: normal;">{{selectedData?.categoria}}</td>
+                </tr>
+                <tr>
+                    <td class="sottocategoria">Sottocategoria</td>
+                    <td style="white-space: normal;">{{selectedData?.sottocategoria}}</td>
+                </tr>
+                <tr>
+                    <td class="numcodsito">Codice CEM</td>
+                    <td style="white-space: normal;">{{selectedData?.numcodsito}}</td>
+                </tr>
+                <tr>
+                    <td class="numcodcar">Codice Rumore-Cem</td>
+                    <td style="white-space: normal;">{{selectedData?.numcodcar}}</td>
+                </tr>
+                <tr>
+                    <td class="numcodprog">Codice Ufficio</td>
+                    <td style="white-space: normal;">{{selectedData?.numcodprog}}</td>
+                </tr>
+                <tr>
+                    <td class="azione">Azione</td>
+                    <td style="white-space: normal;">{{selectedData?.azione}}</td>
+                </tr>
+                <tr>
+                    <td class="azionedup">Azione Duplicata</td>
+                    <td style="white-space: normal;">{{selectedData?.azionedup}}</td>
+                </tr>
+                <tr>
+                    <td class="protriferime">Prot. di Riferimento Azione Duplicata</td>
+                    <td style="white-space: normal;">{{selectedData?.protriferime}}</td>
+                </tr>
+                <tr>
+                    <td class="aie">AIE</td>
+                    <td style="white-space: normal;">{{selectedData?.aie}}</td>
+                </tr>
+                <tr>
+                    <td class="dpia">DPIA</td>
+                    <td style="white-space: normal;">{{selectedData?.dpia}}</td>
+                </tr>
+                <tr>
+                    <td class="congiunta">Congiunta</td>
+                    <td style="white-space: normal;">{{selectedData?.congiunta}}</td>
+                </tr>
+                <tr>
+                    <td class="simulazione">Simulazione</td>
+                    <td style="white-space: normal;">{{selectedData?.simulazione}}</td>
+                </tr>
+                <tr>
+                    <td class="scadenza">Scadenza</td>
+                    <td style="white-space: normal;">{{selectedData?.scadenza | date:'dd-MM-yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td class="scadenza2">Scadenza2</td>
+                    <td style="white-space: normal;">{{selectedData?.scadenza2 | date:'dd-MM-yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td class="cdsdata">Cdsdata</td>
+                    <td style="white-space: normal;">{{selectedData?.cdsdata | date:'dd-MM-yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td class="cdsora">cdsora</td>
+                    <td style="white-space: normal;">{{selectedData?.cdsora}}</td>
+                </tr>
+                <tr>
+                    <td class="notadigos">Notadigos</td>
+                    <td style="white-space: normal;">{{selectedData?.notadigos}}</td>
+                </tr>
+                <tr>
+                    <td class="funzionario">Lavorato Funzionario</td>
+                    <td style="white-space: normal;">{{selectedData?.funzionario}}</td>
+                </tr>
+                <tr>
+                    <td class="dirigente">Lavorato Dirigente</td>
+                    <td style="white-space: normal;">{{selectedData?.dirigente}}</td>
+                </tr>
+                <tr>
+                    <td class="commriscontro">Commento Riscontro</td>
+                    <td style="white-space: normal;">{{selectedData?.commriscontro}}</td>
+                </tr>
+            </tbody>
+         </table>
+     </div>
+     <ng-template pTemplate="footer">
+         <div class="actions" style="display:flex;flex-wrap: wrap;">
+             <button style="justify-content: center;width: 130px;font-size: 9px; height: 30px; background-color: rgb(25,25,112); margin-top: 20px;padding-bottom: 5px;"
+                     [disabled]="!selectedData?.fatturazioneDaCompletare " class="p-button p-button-info p-button-sm" (click)="downloadFatturazioneDaCompletareFile(selectedData?.fatturazioneDaCompletare)">CREA FATTURAZIONE DA COMPLETARE</button>
+             <button style="justify-content: center;width: 130px;font-size: 9px; height: 30px; background-color: rgb(25,25,112); margin-top: 20px;padding-bottom: 5px;"
+                     [disabled]="!selectedData?.codiceSitoPerRapportoDiMisura " class="p-button p-button-info p-button-sm" (click)="downloadCodiceSitoPerRapportoDiMisuraFile(selectedData?.codiceSitoPerRapportoDiMisura)">CREA RAPPORTO DI MISURA</button>
+             <button style="justify-content: center;width: 130px;font-size: 9px; height: 30px; background-color: rgb(25,25,112); margin-top: 20px;padding-bottom: 5px;"
+                     [disabled]="!selectedData?.numeroCodiceSitoPerRichiesta " class="p-button p-button-info p-button-sm" (click)="downloadNumeroCodiceSitoPerRichiestaFile(selectedData?.numeroCodiceSitoPerRichiesta)">CREA RICHIESTA INTEGRAZIONI</button>
+             <button style="justify-content: center;width: 130px;font-size: 9px; height: 30px; background-color: rgb(25,25,112); margin-top: 20px;padding-bottom: 5px;"
+                     [disabled]="!selectedData?.numeroCodiceSitoPerVincolata " class="p-button p-button-info p-button-sm" (click)="downloadNumeroCodiceSitoPerVincolataFile(selectedData?.numeroCodiceSitoPerVincolata)">CREA PARERE VINCOLATA</button>
+             <button style="justify-content: center;width: 130px;font-size: 9px; height: 30px; background-color: rgb(25,25,112); margin-top: 20px;padding-bottom: 5px;"
+                     [disabled]="!selectedData?.numeroCodiceSitoPerSoprolluogo " class="p-button p-button-info p-button-sm" (click)="downloadNumeroCodiceSitoPerSoprolluogoFile(selectedData?.numeroCodiceSitoPerSoprolluogo)">CREA PARERE CON SOPROLLLUOGO</button>
+             <button style="justify-content: center;width: 130px;font-size: 9px; height: 30px; background-color: rgb(25,25,112); margin-top: 20px;padding-bottom: 5px;"
+                     [disabled]="!selectedData?.numcodsito " class="p-button p-button-info p-button-sm" (click)="downloadNumeroCodiceSitoFile(selectedData?.numcodsito)">CREA PARERE</button>
+             <button style="justify-content: center;width: 130px;font-size: 9px; height: 30px; background-color: rgb(25,25,112); margin-top: 20px;padding-bottom: 5px;"
+                     [disabled]="!selectedData?.numprotcoll " class="p-button p-button-info p-button-sm" (click)="downloadNumeroProtocolloFile(selectedData?.numprotcoll)">CREA NOTA DIGOS</button>
+             <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px"
+                     pButton type="button" label="Annulla" (click)="hideShowDialog()"></button>
+         </div>
+     </ng-template>
+ </p-dialog>
+
+
+ <!-- VIEW POP UP - EYE-ICON-->  
+ <p-dialog [(visible)]="dataProtocolandProtriferimePopupDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [style]="{width: '700px'}" [contentStyle]="{height: '600px'}">
+     <div>
+         <table class="vertical-table" width="95%">
+             <tbody>
+             <tr>
+                 <td class="senso">Senso</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.senso}}</td>
+             </tr>
+             <tr>
+                 <td class="data">Data</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.data | date:'dd-MM-yyyy'}}</td>
+             </tr>
+             <tr>
+                 <td class="protocollo">Protocollo</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.protocollo}}</td>
+             </tr>
+             <tr>
+                <td class="autore">Autore</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.autore}}</td>
+            </tr>
+            <tr>
+                <td class="mittente">Mittente</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.mittente}}</td>
+            </tr>
+            <tr>
+                <td class="destinatario">Destinatario</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.destinatario}}</td>
+            </tr>
+            <tr>
+                <td class="oggetto">Oggetto</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.oggetto}}</td>
+            </tr>
+             <tr>
+                 <td class="protcollegato">Protocollo Collegato</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.protcollegato}}</td>
+             </tr>
+             <tr>
+                 <td class="numprotcoll">Num. Prot. Coll.</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.numprotcoll}}</td>
+             </tr>
+             <tr>
+                <td class="subassegnazione">Subassegnazione</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.subassegnazione}}</td>
+            </tr>
+            <tr>
+                <td class="note">Note</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.note}}</td>
+            </tr>
+            <tr>
+                <td class="tematica">Tematica</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.tematica}}</td>
+            </tr>
+            <tr>
+                <td class="categoria">Categoria</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.categoria}}</td>
+            </tr>
+            <tr>
+                <td class="sottocategoria">Sottocategoria</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.sottocategoria}}</td>
+            </tr>
+            <tr>
+                <td class="numcodsito">Codice CEM</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.numcodsito}}</td>
+            </tr>
+            <tr>
+                <td class="numcodcar">Codice Rumore-Cem</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.numcodcar}}</td>
+            </tr>
+            <tr>
+                <td class="numcodprog">Codice Ufficio</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.numcodprog}}</td>
+            </tr>
+             <tr>
+                 <td class="azione">Azione</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.azione}}</td>
+             </tr>
+             <tr>
+                 <td class="azionedup">Azione Duplicata</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.azionedup}}</td>
+             </tr>
+             <tr>
+                 <td class="protriferime">Prot. di Riferimento Azione Duplicata</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.protriferime }}</td>
+             </tr>
+             <tr>
+                 <td class="aie">AIE</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.aie}}</td>
+             </tr>
+             <tr>
+                <td class="dpia">DPIA</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.dpia}}</td>
+            </tr>
+             <tr>
+                 <td class="congiunta">Congiunta</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.congiunta}}</td>
+             </tr>
+             <tr>
+                 <td class="simulazione">Simulazione</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.simulazione}}</td>
+             </tr>
+             <!-- <tr>
+                 <td class="statoimpianto">Stato Impianto</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.statoimpianto}}</td>
+             </tr>
+             <tr>
+                 <td class="statoprocedura">Stato Procedura</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.statoprocedura}}</td>
+             </tr> -->
+             <tr>
+                 <td class="scadenza">Scadenza</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.scadenza | date:'dd-MM-yyyy'}}</td>
+             </tr>
+             <tr>
+                 <td class="scadenza2">Scadenza2</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.scadenza2 | date:'dd-MM-yyyy'}}</td>
+             </tr>
+             <tr>
+                 <td class="cdsdata">Cdsdata</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.cdsdata | date:'dd-MM-yyyy'}}</td>
+             </tr>
+             <tr>
+                 <td class="cdsora">cdsora</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.cdsora}}</td>
+             </tr>
+             <!-- <tr>
+                 <td class="noteazione">Note su Azione</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.noteazione}}</td>
+             </tr> -->
+             <tr>
+                 <td class="notadigos">Notadigos</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.notadigos}}</td>
+             </tr>
+             <tr>
+                <td class="funzionario">Lavorato Funzionario</td>
+                <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.funzionario}}</td>
+            </tr>
+             <tr>
+                 <td class="dirigente">Lavorato Dirigente</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.dirigente}}</td>
+             </tr>
+             <tr>
+                 <td class="commriscontro">Commento Riscontro</td>
+                 <td style="white-space: normal;">{{selectedProtocolandProtriferimePopupData?.commriscontro}}</td>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <ng-template pTemplate="footer">
+         <div class="actions">
+             <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;" pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneDataProtocolAndProtriferimePopup(selectedProtocolandProtriferimePopupData)"></button>
+             <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;" pButton type="button" label="Annulla" (click)="hideProtocolAndProtrferimePopupDataDialog()"></button>
+         </div>
+     </ng-template>
+ </p-dialog>
+
+
+ <p-dialog [(visible)]="dataCodiceSitoPopupDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [style]="{width: '700px'}" [contentStyle]="{height: '600px'}">
+     <div>
+         <table class="vertical-table" width="95%">
+             <tbody>
+             <tr>
+                 <td class="numcodsito">Numcodsito</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.numcodsito}}</td>
+             </tr>
+             <tr>
+                 <td class="numcodsitoold">Numcodsitoold</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.numcodsitoold}}</td>
+             </tr>
+             <tr>
+                 <td class="nomesito">Nomesito</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.nomesito}}</td>
+             </tr>
+             <tr>
+                 <td class="gestore">Gestore</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.gestore}}</td>
+             </tr>
+             <tr>
+                 <td class="tipoimpianto">Tipoimpianto</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.tipoimpianto}}</td>
+             </tr>
+             <tr>
+                 <td class="regione">Regione</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.regione}}</td>
+             </tr>
+             <tr>
+                 <td class="provincia">Provincia</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.provincia}}</td>
+             </tr>
+             <tr>
+                 <td class="comune">Comune</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.comune}}</td>
+             </tr>
+             <tr>
+                 <td class="indirizzo">Indirizzo</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.indirizzo}}</td>
+             </tr>
+             <tr>
+                 <td class="numlocosscem">Numlocosscem</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.numlocosscem}}</td>
+             </tr>
+             <tr>
+                 <td class="locosscem">Locosscem</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.locosscem}}</td>
+             </tr>
+             <tr>
+                 <td class="coordinatelong">Coordinatelong</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.coordinatelong}}</td>
+             </tr>
+             <tr>
+                 <td class="coordinatelat">Coordinatelat</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.coordinatelat}}</td>
+             </tr>
+             <tr>
+                 <td class="protocollocheck">Protocollocheck</td>
+                 <td style="white-space: normal;">{{parseDataFields(selectedCodiceSitoPopupData?.protocollocheck)}}</td>
+             </tr>
+             <tr>
+                 <td class="dataprot">Dataprot</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.dataprot}}</td>
+             </tr>
+             <tr>
+                 <td class="statoimpianto">Statoimpianto</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.statoimpianto}}</td>
+             </tr>
+             <tr>
+                 <td class="linkcondivisia">Linkcondivisia</td>
+                 <td style="white-space: normal;">{{selectedCodiceSitoPopupData?.linkcondivisia}}</td>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <ng-template pTemplate="footer">
+         <div class="actions">
+             <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;" pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneDataCodiceSitoPopup(selectedCodiceSitoPopupData)"></button>
+             <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;" pButton type="button" label="Annulla" (click)="hideCodiceSitoPopupDataDialog()"></button>
+         </div>
+     </ng-template>
+ </p-dialog>
+
+ <p-dialog [(visible)]="dataElencoRumorePopupDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [style]="{width: '700px'}" [contentStyle]="{height: '600px'}">
+     <div>
+         <table class="vertical-table" width="95%">
+             <tbody>
+             <tr>
+                 <td class="numcodcar">Nuovo Codice Cartella</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.numcodcar}}</td>
+             </tr>
+             <tr>
+                 <td class="numcodcarold">Codice Cartella OLD</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.numcodcarold}}</td>
+             </tr>
+             <tr>
+                 <td class="denominazione">Denominazione</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.denominazione}}</td>
+             </tr>
+             <tr>
+                 <td class="gestore">Gestore</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.gestore}}</td>
+             </tr>
+             <tr>
+                 <td class="attivita">Attività</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.attivita}}</td>
+             </tr>
+             <tr>
+                <td class="idaut">ID Autorizzazione</td>
+                <td style="white-space: normal;">{{selectedElencoRumorePopupData?.idaut}}</td>
+            </tr>
+             <tr>
+                 <td class="dataril">Data Rilascio Autorizzazione</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.dataril | date:'dd-MM-yyyy'}}</td>
+             </tr>
+             <tr>
+                 <td class="numautatt">Numero Autorizzazione</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.numautatt}}</td>
+             </tr>
+             <tr>
+                 <td class="tipaut">Tipo Autorizzazione</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.tipaut}}</td>
+             </tr>
+             <tr>
+                 <td class="dataproc">Data avvio procedimento</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.dataproc | date:'dd-MM-yyyy'}}</td>
+             </tr>
+             <tr>
+                 <td class="protcoll">Protocollo Avvio Procedimento</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.protcoll}}</td>
+             </tr>
+             <tr>
+                 <td class="provincia">Provincia</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.provincia}}</td>
+             </tr>
+             <tr>
+                 <td class="comune">Comune</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.comune}}</td>
+             </tr>
+             <tr>
+                 <td class="coordinatelat">Coordinate LAT</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.coordinatelat}}</td>
+             </tr>
+             <tr>
+                 <td class="coordinatelong">Coordinate LONG</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.coordinatelong}}</td>
+             </tr>
+             <tr>
+                 <td class="indirizzo">Indirizzo</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.indirizzo}}</td>
+             </tr>
+             <tr>
+                 <td class="nomesito">Nome Sito</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.nomesito}}</td>
+             </tr>
+             <tr>
+                 <td class="autesp">Autore Esposto</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.autesp}}</td>
+             </tr>
+             <tr>
+                 <td class="sorgente">Sorgente</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.sorgente}}</td>
+             </tr>
+             <tr>
+                 <td class="tipologiaoss">Tipologia Osservatorio</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.tipologiaoss}}</td>
+             </tr>
+             <tr>
+                 <td class="schedaobb">Scheda Obblighi Gestore</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.schedaobb}}</td>
+             </tr>
+             <tr>
+                 <td class="note">Note</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.note}}</td>
+             </tr>
+             <tr>
+                 <td class="linkcondivisia">Link Cartella Condivisa</td>
+                 <td style="white-space: normal;">{{selectedElencoRumorePopupData?.linkcondivisia}}</td>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <ng-template pTemplate="footer">
+         <div class="actions">
+             <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;" pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneDataElencoRumorePopup(selectedElencoRumorePopupData)"></button>
+             <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;" pButton type="button" label="Annulla" (click)="hideElencoRumorePopupDataDialog()"></button>
+         </div>
+     </ng-template>
+ </p-dialog>
+
+ <p-dialog [(visible)]="dataElencoUffPopupDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [style]="{width: '700px'}" [contentStyle]="{height: '600px'}">
+     <div>
+         <table class="vertical-table" width="95%">
+             <tbody>
+             <tr>
+                 <td class="numcodprog">Numero Codice Progetto</td>
+                 <td style="white-space: normal;">{{selectedElencoUffPopupData?.numcodprog}}</td>
+             </tr>
+             <tr>
+                 <td class="denominazione">Denominazione</td>
+                 <td style="white-space: normal;">{{selectedElencoUffPopupData?.denominazione}}</td>
+             </tr>
+             <tr>
+                 <td class="gestore">Gestore</td>
+                 <td style="white-space: normal;">{{selectedElencoUffPopupData?.gestore}}</td>
+             </tr>
+             <tr>
+                 <td class="cup">Cup</td>
+                 <td style="white-space: normal;">{{selectedElencoUffPopupData?.cup}}</td>
+             </tr>
+             <tr>
+                 <td class="dataatt">Data Atto</td>
+                 <td style="white-space: normal;">{{selectedElencoUffPopupData?.dataatt | date:'dd-MM-yyyy'}}</td>
+             </tr>
+             <tr>
+                 <td class="numatt">Numero Atto</td>
+                 <td style="white-space: normal;">{{selectedElencoUffPopupData?.numatt}}</td>
+             </tr>
+             <tr>
+                 <td class="tipatt">Tipo Atto</td>
+                 <td style="white-space: normal;">{{selectedElencoUffPopupData?.tipatt}}</td>
+             </tr>
+             </tbody>
+         </table>
+     </div>
+     <ng-template pTemplate="footer">
+         <div class="actions">
+             <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;" pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneDataElencoUffPopup(selectedElencoUffPopupData)"></button>
+             <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;" pButton type="button" label="Annulla" (click)="hideElencoUffPopupDataDialog()"></button>
+         </div>
+     </ng-template>
+ </p-dialog>
+
+ <p-confirmDialog class="custom-confirm-dialog" [style]="{width: '450px', height: '220px'}"></p-confirmDialog>

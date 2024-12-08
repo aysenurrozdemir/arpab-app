@@ -1,0 +1,201 @@
+.pi.pi-home {
+  color: blue; /* Set the color to blue */
+  font-size: 20px; /* Set the font size to 100px */
+}
+/* Apply margin to the entire toolbar */
+p-toolbar.mb-4 {
+  margin-bottom: 1.5rem;
+}
+/* Apply flexbox to the toolbar groups */
+p-toolbar.mb-4 .p-toolbar-group-left,
+p-toolbar.mb-4 .p-toolbar-group-right {
+  display: flex;
+  align-items: center;
+}
+
+/* Apply flexbox to the center group for spacing */
+p-toolbar.mb-4 .p-toolbar-group-center {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-grow: 2;
+}
+
+/* Apply flex properties to each ng-template within the center group */
+p-toolbar.mb-4 .p-toolbar-group-center > * {
+  flex-grow: 1;
+  text-align: center; /* Center content */
+}
+
+/* Style the search container */
+.search-container {
+  display: flex;
+  align-items: center;
+}
+
+/* Style the search input */
+.search-container input {
+  padding-left: 2rem; /* Adjust as needed */
+  width: 100%; /* Expand the input to fill the container */
+}
+
+
+.form-dialog {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+
+.field {
+  margin-bottom: 1rem;
+  width: 100% !important;
+  display: grid;
+  grid-template-columns: 30% 70%;
+  padding-top: 10px;
+}
+.field > label{
+  font-weight: 600!important;
+}
+.field > div > label{
+  font-weight: 600!important;
+  padding-right: 5px;
+}
+.fieldSiNo > label{
+  font-weight: 600!important;
+}
+.fieldSiNo {
+  margin-bottom: 1rem;
+  width: 100% !important;
+  display: grid;
+  grid-template-columns: 25% 22% 22% 22%;
+  gap: 2rem;
+}
+.fieldSiNo > div > span {
+  padding-right: 10px;
+}
+.block {
+  display: block;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+
+.actions button {
+  margin-left: 1rem;
+}
+
+/* Adjust the input width to 100% */
+input {
+  width: 100%;
+}
+::ng-deep .p-dropdown {
+  width: 100% !important;
+}
+::ng-deep .p-button.p-button-icon-only.p-button-rounded {
+  width: 2rem;
+  height: 2rem;
+}
+.vertical-table {
+  padding-top: 10px;
+}
+.vertical-table .header {
+  font-weight: bold;
+  background-color: blue;
+}
+
+.vertical-table td:first-child {
+  /* Styles for cells in the first column */
+  font-weight: bold;
+  background-color: #f0f0f0; /* Example background color */
+}
+
+/* Styles for cells other than the first column */
+.vertical-table td:not(:first-child) {
+  /* Styles for cells other than the first column */
+  background-color: white; /* Example background color */
+  font-weight: 500;
+}
+
+.vertical-table td {
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+}
+
+::ng-deep .p-dialog .p-dialog-header {
+  background: midnightblue;
+  color: white;
+}
+::ng-deep .p-dialog .p-dialog-footer button {
+  margin: 0;
+}
+::ng-deep .p-confirm-dialog .p-dialog-content {
+  padding-top: 20px;
+}
+::ng-deep .p-dialog .p-dialog-footer button {
+  margin-right: 10px;
+}
+
+
+::ng-deep .p-column-filter-row p-columnfilterformelement {
+  width: 120px!important;
+}
+::ng-deep .p-column-filter-row .p-column-filter-clear-button {
+  display: none;
+}
+.expanded-row {
+  width: inherit; /* inherit width from the table */
+}
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-maximize-icon{
+  display: none;
+}
+.p-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%
+}
+.p-dialog-header-icons {
+  display: flex;
+  align-items: center;
+}
+.p-dialog-header-icon.custom-maximize-button,
+.p-dialog-header-icon.custom-close-button {
+  margin-left: 10px;
+}
+.p-dialog-maximized {
+  width: 100% !important;
+  height: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+:host ::ng-deep .p-dialog .p-dialog-header .p-dialog-header-maximize-icon{
+  display: none;
+}
+.p-dialog-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%
+}
+.p-dialog-header-icons {
+  display: flex;
+  align-items: center;
+}
+.p-dialog-header-icon.custom-maximize-button,
+.p-dialog-header-icon.custom-close-button {
+  margin-left: 10px;
+}
+.p-dialog-maximized {
+  width: 100% !important;
+  height: 100% !important;
+  top: 0 !important;
+  left: 0 !important;
+  max-width: none !important;
+  max-height: none !important;
+}
+

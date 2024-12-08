@@ -1,0 +1,581 @@
+ <div class="top-all-page">
+    <div style="display: inline-flex;">
+        <span class="pi pi-home" routerLink="/dashboard"></span>
+    </div>
+    <span class="font-medium ml-2">/Elenco RUMORE/RUMORE CEM </span>
+</div>
+
+<p-toolbar styleClass="mb-4" class="col-12">
+    <ng-template pTemplate="left">
+        <button pButton pRipple style="max-width: 250px; font-size: 11px" label="AGGIUNGI NUOVO" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewData()"></button>
+        <button pButton pRipple style="max-width: 40px; font-size: 11px" [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDatas()" [disabled]="!selectedDatas || !selectedDatas.length"></button>
+    </ng-template>
+
+    <ng-template pTemplate="center">
+        <div class="search-container">
+        <span class="p-input-icon-left" style="max-width: 400px;">
+            <i class="pi pi-search" style="margin-right: 5px;"></i>
+            <input style="background-color: white;" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                   placeholder="Ricerca Numcodcar"
+                   class="search-input"/>
+        </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="right" >
+        <button pButton pRipple label="Esporta Excel (Selezionato)" icon="pi pi-file-pdf" class="p-button-help p-button-sm mr-2" style="max-width: 250px" (click)="selectedExportExcel()"></button>
+
+        <button pButton pRipple label="Esporta Excel (Tutto)" icon="pi pi-file-excel" class="p-button-help p-button-sm" style="max-width: 200px" (click)="exportExcelAll()"></button>
+        <div class="custom-paginator-top ml-3">
+            <div class="p-d-flex p-jc-between p-ai-center">
+                <div class="p-d-flex p-ai-center">
+                    <label style="font-size: 16px; font-weight:600" for="rowsPerPage">Risultati: </label>
+                    <p-dropdown id="rowsPerPage" [options]="[5, 10, 20, 50]" [(ngModel)]="dt.rows"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toolbar>
+
+<p-scrollPanel [style]="{ width: '100%', height: '70vh' }">
+    <p-table appTranslateFilter #dt [value]="datas" [rows]="10" [paginator]="true" [globalFilterFields]="['numcodcar']"
+             [(selection)]="selectedDatas" [rowHover]="true" dataKey="numcodcar"
+             currentPageReportTemplate="Risultati {first} a {last} di {totalRecords}"  [showCurrentPageReport]="true"
+             [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-gridlines" class="custom-table">
+        <ng-template pTemplate="header">
+            <tr style="background-color: blue;">
+                <th style="text-align: center;background-color: lightgray">
+                </th>
+                <th style="text-align: center;background-color: lightgray">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="text-align: center;background-color: lightgray; padding: 0 5rem 0 5rem;">
+                    <p style="display: inline-flex"></p>
+                </th>
+                <th pSortableColumn="numcodcar" style="text-align: center;background-color: lightgray">
+                    Nuovo Codice Cartella <p-sortIcon field="numcodcar"></p-sortIcon>
+                </th>
+                <th pSortableColumn="numcodcarold" style="text-align: center;background-color: lightgray">
+                    Codice Cartella OLD <p-sortIcon field="numcodcarold"></p-sortIcon>
+                </th>
+                <th pSortableColumn="denominazione" style="text-align: center;background-color: lightgray">
+                    Denominazione <p-sortIcon field="denominazione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="gestore" style="text-align: center;background-color: lightgray">
+                    Gestore <p-sortIcon field="gestore"></p-sortIcon>
+                </th>
+                <th pSortableColumn="attivita" style="text-align: center;background-color: lightgray">
+                    Attività <p-sortIcon field="attivita"></p-sortIcon>
+                </th>
+                <th pSortableColumn="idaut" style="text-align: center;background-color: lightgray">
+                    ID Autorizzazione <p-sortIcon field="idaut"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dataril" style="text-align: center;background-color: lightgray">
+                    Data Rilascio Autorizzazione <p-sortIcon field="dataril"></p-sortIcon>
+                </th>
+                <th pSortableColumn="numautatt" style="text-align: center;background-color: lightgray">
+                    Numero Autorizzazione <p-sortIcon field="numautatt"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tipaut" style="text-align: center;background-color: lightgray">
+                    Tipo Autorizzazione <p-sortIcon field="tipaut"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dataproc" style="text-align: center;background-color: lightgray">
+                    Data Avvio Procedimento <p-sortIcon field="dataproc"></p-sortIcon>
+                </th>
+                <th pSortableColumn="protcoll" style="text-align: center;background-color: lightgray">
+                    Protocollo Avvio Procedimento <p-sortIcon field="protcoll"></p-sortIcon>
+                </th>
+                <th pSortableColumn="provincia" style="text-align: center;background-color: lightgray">
+                    Provincia <p-sortIcon field="provincia"></p-sortIcon>
+                </th>
+                <th pSortableColumn="comune" style="text-align: center;background-color: lightgray">
+                    Comune <p-sortIcon field="comune"></p-sortIcon>
+                </th>
+                <th pSortableColumn="coordinatelat" style="text-align: center;background-color: lightgray">
+                    Coordinate LAT <p-sortIcon field="coordinatelat"></p-sortIcon>
+                </th>
+                <th pSortableColumn="coordinatelong" style="text-align: center;background-color: lightgray">
+                    Coordinate LONG <p-sortIcon field="coordinatelong"></p-sortIcon>
+                </th>
+                <th pSortableColumn="indirizzo" style="text-align: center;background-color: lightgray">
+                    Indirizzo <p-sortIcon field="indirizzo"></p-sortIcon>
+                </th>
+                <th pSortableColumn="nomesito" style="text-align: center;background-color: lightgray">
+                    Nome Sito <p-sortIcon field="nomesito"></p-sortIcon>
+                </th>
+                <th pSortableColumn="autesp" style="text-align: center;background-color: lightgray">
+                    Autore Esposto <p-sortIcon field="autesp"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sorgente" style="text-align: center;background-color: lightgray">
+                    Sorgente <p-sortIcon field="sorgente"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tipologiaoss" style="text-align: center;background-color: lightgray">
+                    Tipologia Osservatorio <p-sortIcon field="tipologiaoss"></p-sortIcon>
+                </th>
+                <th pSortableColumn="schedaobb" style="text-align: center;background-color: lightgray">
+                    Scheda Obblighi Gestore <p-sortIcon field="schedaobb"></p-sortIcon>
+                </th>
+                <th pSortableColumn="note" style="text-align: center;background-color: lightgray">
+                    Note <p-sortIcon field="note"></p-sortIcon>
+                </th>
+                <th pSortableColumn="linkcondivisia" style="text-align: center;background-color: lightgray">
+                    Link Cartella Condivisa <p-sortIcon field="linkcondivisia"></p-sortIcon>
+                </th>
+                <th style="text-align: center;background-color: lightgray">
+                    Mostra
+                </th>
+            </tr>
+            <tr>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numcodcar"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numcodcarold"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="denominazione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="gestore"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="attivita"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="idaut"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="dataril"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numautatt"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="tipaut"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="dataproc"></p-columnFilter>
+                </th>
+
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="protcoll"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="provincia"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="comune"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="coordinatelat"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="coordinatelong"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="indirizzo"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="nomesito"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="autesp"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="sorgente"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="tipologiaoss"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="schedaobb"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="note"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="linkcondivisia"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nessun risultato trovato</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td style="text-align: center;">
+                    <button type="button" pButton pRipple [pRowToggler]="data" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td style="text-align: center;"> <!-- Center align data -->
+                    <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primary mr-2" (click)="showData(data)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editData(data)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteData(data)"></button>
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numcodcar}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numcodcarold}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.denominazione}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.gestore}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.attivita}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.idaut}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.dataril | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numautatt}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.tipaut}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.dataproc | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.protcoll}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.provincia}}
+                </td>
+                <td style="text-align: center;">
+                    {{ data?.comune?.length ? data.comune : '' }}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.coordinatelat}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.coordinatelong}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.indirizzo}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.nomesito}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.autesp}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.sorgente}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.tipologiaoss}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.schedaobb}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.note}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.linkcondivisia}}
+                </td>
+
+                <td style="text-align: center;">
+                    <p-button icon="pi pi-external-link" ariaLabel="all" (click)="navigateTo()"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-data>
+            <!-- Scheda Obb placeholder for table -->
+            <tr>
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>SchedaObb:&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                        <button pButton type="button" *ngIf="!schedaRadioElettricaTable" (click)="showSchedaRadioElettricaTable(data)">Mostra</button>
+                        <button pButton type="button" *ngIf="schedaRadioElettricaTable && selectedRow === data" (click)="hideSchedaRadioElettricaTable(data)">Nascondi</button>
+                        <ng-container *ngIf="schedaRadioElettricaTable && selectedRow === data">
+                            <ng-container *ngIf="schedaRadioElettricaTableValue && schedaRadioElettricaTableValue.length > 0">
+                                <table style="width: 100%;border-collapse: collapse; margin: 20px 0;">
+                                    <thead style="background-color: #f2f2f2;">
+                                    <tr>
+                                        <th style=" padding: 12px 15px;text-align: left; border-bottom: 2px solid #ddd; font-weight: bold;"
+                                            *ngFor="let header of tableHeaders">{{ header }}</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+                                    <tr *ngFor="let item of schedaRadioElettricaTableValue">
+                                        <td style="text-align-last: center;" *ngFor="let key of tableHeaders">{{ item[key] }}</td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+ </p-scrollPanel>
+
+
+ <!-- FORM POPUP KISMI-->
+ <p-dialog [(visible)]="newDialog || dataDialog" [style]="{width: '1000px'}" header="Add & Update Data" [modal]="true"
+           [maximizable]="false" [closable]="false"
+           (onHide)="onHideDialog()">
+     <ng-template pTemplate="header">
+         <div class="p-dialog-header">
+             <span class="p-dialog-title">Aggiungi e Aggiorna dati</span>
+             <div class="p-dialog-header-icons">
+                 <button type="button" class="p-dialog-header-icon p-link custom-maximize-button" (click)="maximizeDialog()">
+                     <span class="pi pi-window-maximize"></span>
+                 </button>
+                 <button type="button" class="p-dialog-header-icon p-link custom-close-button" (click)="hideDataDialog()">
+                     <span class="pi pi-times"></span>
+                 </button>
+             </div>
+         </div>
+     </ng-template>
+    <form [formGroup]="dataForm" (ngSubmit)="saveData()" novalidate class="form-dialog">
+        <div class="field">
+            <label for="numcodcar" class="block">Nuovo Codice Cartella</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="numcodcar" />
+        </div>
+        <div class="field">
+            <label for="numcodcarold" class="block">Codice Cartella OLD</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="numcodcarold" />
+        </div>
+        <div class="field">
+            <label for="denominazione" class="block">Denominazione</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="denominazione" />
+        </div>
+        <div class="field">
+            <label for="gestore" class="block">Gestore</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="gestore" />
+        </div>
+        <div class="field">
+            <label for="attivita" class="block">Attività</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="attivita" />
+        </div>
+        <div class="field">
+            <label for="idaut" class="block">ID Autorizzazione</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="idaut" />
+        </div>
+        <div class="field">
+            <label for="dataril" class="block">Data Rilascio Autorizzazione</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="dataril" dateFormat="dd-mm-yy" [showIcon]="true" ></p-calendar>
+        </div>
+        <div class="field">
+            <label for="numautatt" class="block">Numero Autorizzazione</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="numautatt" />
+        </div>
+        <div class="field">
+            <label for="tipaut" class="block">Tipo Autorizzazione</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="tipaut" />
+        </div>
+        <div class="field">
+            <label for="dataproc" class="block">Data Avvio Procedimento</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="dataproc" dateFormat="dd-mm-yy" [showIcon]="true" ></p-calendar>
+        </div>
+        <div class="field">
+            <label for="protcoll" class="block">Protocollo Avvio Procedimento</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="protcoll" />
+        </div>
+        <div class="field">
+            <label for="provincia" class="block">Provincia</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="provincia"
+                        [options]="provinciaOptions"
+                        optionLabel="denominazione"
+                        optionValue="codice"
+                        [showClear]="true"
+                        placeholder="Selezionare"
+                        (onChange)="onProvinciaChange($event)">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label for="comune" class="block">Comune</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                           formControlName="comune"  [options]="comuneOptions"
+                           [showClear]="true" placeholder="Selezione multipla">
+            </p-multiSelect>
+        </div>
+        <div class="field">
+            <label for="coordinatelat" class="block">Coordinate LAT</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="coordinatelat" />
+        </div>
+        <div class="field">
+            <label for="coordinatelong" class="block">Coordinate LONG</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="coordinatelong" />
+        </div>
+        <div class="field">
+            <label for="indirizzo" class="block">Indirizzo</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="indirizzo" />
+        </div>
+        <div class="field">
+            <label for="nomesito" class="block">Nome Sito</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="nomesito" />
+        </div>
+        <div class="field">
+            <label for="autesp" class="block">Autore Esposto</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="autesp" />
+        </div>
+        <div class="field">
+            <label for="sorgente" class="block">Sorgente</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="sorgente" />
+        </div>
+        <div class="field">
+            <label for="tipologiaoss" class="block">Tipologia Osservatorio</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="tipologiaoss"
+                        [options]="tipologiaosOptions"
+                        optionLabel="label"
+                        optionValue="value"
+                        [showClear]="true"
+                        placeholder="Selezionare">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label for="schedaobb" class="block">Scheda Obblighi Gestore</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="schedaobb" />
+        </div>
+        <div class="field">
+            <label for="note" class="block">Note</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="note" />
+        </div>
+        <div class="field">
+            <label for="linkcondivisia" class="block">Link Cartella Condivisa</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="linkcondivisia" />
+        </div>
+
+        <div class="actions">
+            <button pButton type="button" label="Annulla" style="background-color: red;" (click)="hideDataDialog()"></button>
+            <button pButton type="submit" label="Invia" style="background-color: green;" [disabled]="dataForm.invalid"></button>
+        </div>
+
+    </form>
+</p-dialog>
+
+<!-- VIEW POP UP - EYE-ICON-->
+<p-dialog  [(visible)]="dataShowDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+           [style]="dialogStyles"
+           [contentStyle]="dialogContentStyles">
+    <div style="overflow-y: auto;">
+        <table class="vertical-table" style="width: 100%">
+            <tbody>
+            <tr>
+                <td class="numcodcar">Nuovo Codice Cartella</td>
+                <td style="white-space: normal;">{{selectedData?.numcodcar}}</td>
+            </tr>
+            <tr>
+                <td class="numcodcarold">Codice Cartella OLD</td>
+                <td style="white-space: normal;">{{selectedData?.numcodcarold}}</td>
+            </tr>
+            <tr>
+                <td class="denominazione">Denominazione</td>
+                <td style="white-space: normal;">{{selectedData?.denominazione}}</td>
+            </tr>
+            <tr>
+                <td class="gestore">Gestore</td>
+                <td style="white-space: normal;">{{selectedData?.gestore}}</td>
+            </tr>
+            <tr>
+                <td class="attivita">Attività</td>
+                <td style="white-space: normal;">{{selectedData?.attivita}}</td>
+            </tr>
+            <tr>
+                <td class="idaut">ID Autorizzazione</td>
+                <td style="white-space: normal;">{{selectedData?.idaut}}</td>
+            </tr>
+            <tr>
+                <td class="dataril">Data Rilascio Autorizzazione</td>
+                <td style="white-space: normal;">{{selectedData?.dataril | date:'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+                <td class="numautatt">Numero Autorizzazione</td>
+                <td style="white-space: normal;">{{selectedData?.numautatt}}</td>
+            </tr>
+            <tr>
+                <td class="tipaut">Tipo Autorizzazione</td>
+                <td style="white-space: normal;">{{selectedData?.tipaut}}</td>
+            </tr>
+            <tr>
+                <td class="dataproc">Data Avvio Procedimento</td>
+                <td style="white-space: normal;">{{selectedData?.dataproc | date:'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+                <td class="protcoll">Protocollo Avvio Procedimento</td>
+                <td style="white-space: normal;">{{selectedData?.protcoll}}</td>
+            </tr>
+            <tr>
+                <td class="provincia">Provincia</td>
+                <td style="white-space: normal;">{{selectedData?.provincia}}</td>
+            </tr>
+            <tr>
+                <td class="comune">Comune</td>
+                <td style="white-space: normal;">{{selectedData?.comune}}</td>
+            </tr>
+            <tr>
+                <td class="coordinatelat">Coordinate LAT</td>
+                <td style="white-space: normal;">{{selectedData?.coordinatelat}}</td>
+            </tr>
+            <tr>
+                <td class="coordinatelong">Coordinate LONG</td>
+                <td style="white-space: normal;">{{selectedData?.coordinatelong}}</td>
+            </tr>
+            <tr>
+                <td class="indirizzo">Indirizzo</td>
+                <td style="white-space: normal;">{{selectedData?.indirizzo}}</td>
+            </tr>
+            <tr>
+                <td class="nomesito">Nome Sito</td>
+                <td style="white-space: normal;">{{selectedData?.nomesito}}</td>
+            </tr>
+            <tr>
+                <td class="autesp">Autore Esposto</td>
+                <td style="white-space: normal;">{{selectedData?.autesp}}</td>
+            </tr>
+            <tr>
+                <td class="sorgente">Sorgente</td>
+                <td style="white-space: normal;">{{selectedData?.sorgente}}</td>
+            </tr>
+            <tr>
+                <td class="tipologiaoss">Tipologia Osservatorio</td>
+                <td style="white-space: normal;">{{selectedData?.tipologiaoss}}</td>
+            </tr>
+            <tr>
+                <td class="schedaobb">Scheda Obblighi Gestore</td>
+                <td style="white-space: normal;">{{selectedData?.schedaobb}}</td>
+            </tr>
+            <tr>
+                <td class="note">Note</td>
+                <td style="white-space: normal;">{{selectedData?.note}}</td>
+            </tr>
+            <tr>
+                <td class="linkcondivisia">Link Cartella Condivisa</td>
+                <td style="white-space: normal;">{{selectedData?.linkcondivisia}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="actions">
+            <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;"
+                    pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneData()"></button>
+            <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;"
+                    pButton type="button" label="Annulla" (click)="hideShowDialog()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog class="custom-confirm-dialog" [style]="{width: '450px', height: '220px'}"></p-confirmDialog>

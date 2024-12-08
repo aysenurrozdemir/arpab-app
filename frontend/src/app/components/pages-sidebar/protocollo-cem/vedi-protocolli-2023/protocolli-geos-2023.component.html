@@ -1,0 +1,436 @@
+ <div class="top-all-page">
+    <div style="display: inline-flex;">
+        <span class="pi pi-home" routerLink="/dashboard"></span>
+    </div>
+    <span class="font-medium ml-2">/ Protocolli 2023 </span>
+</div>
+
+<p-toolbar styleClass="mb-4" class="col-12">
+    <ng-template pTemplate="center">
+        <div class="search-container">
+        <span class="p-input-icon-left" style="max-width: 400px;">
+            <i class="pi pi-search" style="margin-right: 5px;"></i>
+            <input style="background-color: white;" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                   placeholder="Ricerca Protocollo"
+                   class="search-input"/>
+        </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="right" >
+        <button pButton pRipple label="Esporta Excel (Selezionato)" icon="pi pi-file-pdf" class="p-button-help p-button-sm mr-2" style="max-width: 250px" (click)="selectedExportExcel()"></button>
+        <button pButton pRipple label="Esporta Excel (Tutto)" icon="pi pi-file-excel" class="p-button-help p-button-sm" style="max-width: 200px" (click)="exportExcelAll()"></button>
+        <div class="custom-paginator-top ml-3">
+            <div class="p-d-flex p-jc-between p-ai-center">
+                <div class="p-d-flex p-ai-center">
+                    <label style="font-size: 16px; font-weight:600" for="rowsPerPage">Risultati: </label>
+                    <p-dropdown id="rowsPerPage" [options]="[5, 10, 20, 50]" [(ngModel)]="dt.rows"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toolbar>
+
+<p-scrollPanel [style]="{ width: '100%', height: '70vh' }">
+    <p-table appTranslateFilter #dt [value]="datas" [rows]="10" [paginator]="true" [globalFilterFields]="['protocollo']"
+             [(selection)]="selectedDatas" [rowHover]="true" dataKey="protocollo"
+             currentPageReportTemplate="Risultati {first} a {last} di {totalRecords}" [showCurrentPageReport]="true"
+             [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-gridlines" class="custom-table">
+        <ng-template pTemplate="header">
+            <tr style="background-color: blue;">
+                <th style="text-align: center;background-color: lightgray">
+                    <p style="display: inline-flex"></p>
+                </th>
+                <th pSortableColumn="idprot" style="text-align: center;background-color: lightgray">
+                    Idprot <p-sortIcon field="idprot"></p-sortIcon>
+                </th>
+                <th pSortableColumn="senso" style="text-align: center;background-color: lightgray">
+                    Senso <p-sortIcon field="senso"></p-sortIcon>
+                </th>
+                <th pSortableColumn="data" style="text-align: center;background-color: lightgray">
+                    Data <p-sortIcon field="data"></p-sortIcon>
+                </th>
+                <th pSortableColumn="protocollo" style="text-align: center;background-color: lightgray">
+                    Protocollo <p-sortIcon field="protocollo"></p-sortIcon>
+                </th>
+                <th pSortableColumn="autore" style="text-align: center;background-color: lightgray">
+                    Autore <p-sortIcon field="autore"></p-sortIcon>
+                </th>
+                <th pSortableColumn="mittente" style="text-align: center;background-color: lightgray">
+                    Mittente <p-sortIcon field="mittente"></p-sortIcon>
+                </th>
+                <th pSortableColumn="destinatario" style="text-align: center;background-color: lightgray">
+                    Destinatario <p-sortIcon field="destinatario"></p-sortIcon>
+                </th>
+                <th pSortableColumn="oggetto" style="text-align: center;background-color: lightgray">
+                    Oggetto <p-sortIcon field="oggetto"></p-sortIcon>
+                </th>
+                <th pSortableColumn="subassegnazione" style="text-align: center;background-color: lightgray">
+                    Subassegnazione <p-sortIcon field="subassegnazione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="note" style="text-align: center;background-color: lightgray">
+                    Note <p-sortIcon field="note"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tematica" style="text-align: center;background-color: lightgray">
+                    Tematica <p-sortIcon field="tematica"></p-sortIcon>
+                </th>
+                <th pSortableColumn="categoria" style="text-align: center;background-color: lightgray">
+                    Categoria <p-sortIcon field="categoria"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sottocategoria" style="text-align: center;background-color: lightgray">
+                    Sottocategoria <p-sortIcon field="sottocategoria"></p-sortIcon>
+                </th>
+                <th pSortableColumn="aie" style="text-align: center;background-color: lightgray">
+                    Aie <p-sortIcon field="aie"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dpia" style="text-align: center;background-color: lightgray">
+                    Dpia <p-sortIcon field="dpia"></p-sortIcon>
+                </th>
+                <th pSortableColumn="congiunta" style="text-align: center;background-color: lightgray">
+                    Congiunta <p-sortIcon field="congiunta"></p-sortIcon>
+                </th>
+                <th pSortableColumn="simulazione" style="text-align: center;background-color: lightgray">
+                    Simulazione <p-sortIcon field="simulazione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="statoimpianto" style="text-align: center;background-color: lightgray">
+                    Stato Impianto <p-sortIcon field="statoimpianto"></p-sortIcon>
+                </th>
+                <th pSortableColumn="statoprocedura" style="text-align: center;background-color: lightgray">
+                    Stato Procedura <p-sortIcon field="statoprocedura"></p-sortIcon>
+                </th>
+                <th pSortableColumn="scadenza" style="text-align: center;background-color: lightgray">
+                    Scadenza <p-sortIcon field="scadenza"></p-sortIcon>
+                </th>
+                <th pSortableColumn="scadenza2" style="text-align: center;background-color: lightgray">
+                    Scadenza2 <p-sortIcon field="scadenza2"></p-sortIcon>
+                </th>
+                <th pSortableColumn="cdsdata" style="text-align: center;background-color: lightgray">
+                    Cdsdata <p-sortIcon field="cdsdata"></p-sortIcon>
+                </th>
+                <th pSortableColumn="cdsora" style="text-align: center;background-color: lightgray">
+                    Cdsora <p-sortIcon field="cdsora"></p-sortIcon>
+                </th>
+                <th pSortableColumn="notadigos" style="text-align: center;background-color: lightgray">
+                    Notadigos <p-sortIcon field="notadigos"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dirigente" style="text-align: center;background-color: lightgray">
+                    Dirigente <p-sortIcon field="dirigente"></p-sortIcon>
+                </th>
+                <th pSortableColumn="funzionario" style="text-align: center;background-color: lightgray">
+                    Funzionario <p-sortIcon field="funzionario"></p-sortIcon>
+                </th>
+                <th pSortableColumn="commriscontro" style="text-align: center;background-color: lightgray">
+                    Commento Riscontro <p-sortIcon field="commriscontro"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="idprot"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="senso"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="data"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="protocollo"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="autore"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="mittente"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="destinatario"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="oggetto"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="subassegnazione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="note"></p-columnFilter>
+                </th>
+
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="tematica"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="categoria"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="sottocategoria"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="aie"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="dpia"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="congiunta"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="simulazione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="statoimpianto"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="statoprocedura"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="scadenza"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="scadenza2"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="cdsdata"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="cdsora"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="notadigos"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="dirigente"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="funzionario"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="commriscontro"></p-columnFilter>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nessun risultato trovato</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td style="text-align: center;">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primary mr-2" (click)="showData(data)"></button>
+                </td>
+                <td style="text-align: center;">
+                    {{data?.idprot}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.senso}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.data | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.protocollo}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.autore}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.mittente}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.destinatario}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.oggetto}}
+                </td>
+                <td style="text-align: center;">
+                    {{ parseDataFields(data?.subassegnazione) }}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.note}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.tematica}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.categoria}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.sottocategoria}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.aie}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.dpia}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.congiunta}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.simulazione}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.statoimpianto}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.statoprocedura}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.scadenza | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.scadenza2 | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.cdsdata | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.cdsora}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.notadigos}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.dirigente}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.funzionario}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.commriscontro}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+ </p-scrollPanel>>
+
+<!-- VIEW POP UP - EYE-ICON-->
+<p-dialog  [(visible)]="dataShowDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+           [style]="dialogStyles"
+           [contentStyle]="dialogContentStyles">
+    <div style="overflow-y: auto;">
+        <table class="vertical-table" style="width: 100%">
+            <tbody>
+                <tr>
+                    <td class="idprot">Idprot</td>
+                    <td>{{selectedData?.idprot}}</td>
+                </tr>
+                <tr>
+                    <td class="senso">Senso</td>
+                    <td>{{selectedData?.senso}}</td>
+                </tr>
+                <tr>
+                    <td class="data">Data</td>
+                    <td>{{selectedData?.data | date:'dd-MM-yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td class="protocollo">Protocollo</td>
+                    <td>{{selectedData?.protocollo}}</td>
+                </tr>
+                <tr>
+                    <td class="autore">Autore</td>
+                    <td>{{selectedData?.autore}}</td>
+                </tr>
+                <tr>
+                    <td class="mittente">Mittente</td>
+                    <td>{{selectedData?.mittente}}</td>
+                </tr>
+                <tr>
+                    <td class="destinatario">Destinatario</td>
+                    <td>{{selectedData?.destinatario}}</td>
+                </tr>
+                <tr>
+                    <td class="oggetto">Oggetto</td>
+                    <td>{{selectedData?.oggetto}}</td>
+                </tr>
+                <tr>
+                    <td class="subassegnazione">Subassegnazione</td>
+                    <td style="white-space: normal;">{{parseDataFields(selectedData?.subassegnazione)}}</td>
+                </tr>
+                <tr>
+                    <td class="note">Note</td>
+                    <td style="white-space: normal;">{{selectedData?.note}}</td>
+                </tr>
+                <tr>
+                    <td class="tematica">Tematica</td>
+                    <td style="white-space: normal;">{{selectedData?.tematica}}</td>
+                </tr>
+                <tr>
+                    <td class="categoria">Categoria</td>
+                    <td style="white-space: normal;">{{selectedData?.categoria}}</td>
+                </tr>
+                <tr>
+                    <td class="sottocategoria">Sottocategoria</td>
+                    <td style="white-space: normal;">{{selectedData?.sottocategoria}}</td>
+                </tr>
+                <tr>
+                    <td class="aie">AIE</td>
+                    <td style="white-space: normal;">{{selectedData?.aie}}</td>
+                </tr>
+                <tr>
+                    <td class="dpia">DPIA</td>
+                    <td style="white-space: normal;">{{selectedData?.dpia}}</td>
+                </tr>
+                <tr>
+                    <td class="congiunta">Congiunta</td>
+                    <td style="white-space: normal;">{{selectedData?.congiunta}}</td>
+                </tr>
+                <tr>
+                    <td class="simulazione">Simulazione</td>
+                    <td style="white-space: normal;">{{selectedData?.simulazione}}</td>
+                </tr>
+                <tr>
+                    <td class="statoimpianto">Stato Impianto</td>
+                    <td style="white-space: normal;">{{selectedData?.statoimpianto}}</td>
+                </tr>
+                <tr>
+                    <td class="statoprocedura">Stato Procedura</td>
+                    <td style="white-space: normal;">{{selectedData?.statoprocedura}}</td>
+                </tr>
+                <tr>
+                    <td class="scadenza">Scadenza</td>
+                    <td style="white-space: normal;">{{selectedData?.scadenza | date:'dd-MM-yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td class="scadenza2">Scadenza2</td>
+                    <td style="white-space: normal;">{{selectedData?.scadenza2 | date:'dd-MM-yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td class="cdsdata">Cdsdata</td>
+                    <td style="white-space: normal;">{{selectedData?.cdsdata | date:'dd-MM-yyyy'}}</td>
+                </tr>
+                <tr>
+                    <td class="cdsora">cdsora</td>
+                    <td style="white-space: normal;">{{selectedData?.cdsora}}</td>
+                </tr>
+                <tr>
+                    <td class="notadigos">Notadigos</td>
+                    <td style="white-space: normal;">{{selectedData?.notadigos}}</td>
+                </tr>
+                <tr>
+                    <td class="dirigente">Dirigente</td>
+                    <td style="white-space: normal;">{{selectedData?.dirigente}}</td>
+                </tr>
+                <tr>
+                    <td class="funzionario">Funzionario</td>
+                    <td style="white-space: normal;">{{selectedData?.funzionario}}</td>
+                </tr>
+                <tr>
+                    <td class="commriscontro">Commento Riscontro</td>
+                    <td style="white-space: normal;">{{selectedData?.commriscontro}}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="actions">
+            <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;"
+                    pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneData()"></button>
+            <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;"
+                    pButton type="button" label="Annulla" (click)="hideShowDialog()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog class="custom-confirm-dialog" [style]="{width: '450px', height: '220px'}"></p-confirmDialog>

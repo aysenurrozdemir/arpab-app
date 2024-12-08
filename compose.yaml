@@ -1,0 +1,43 @@
+services:
+  db:
+    build:
+      context: ./db
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: dropfaci_arpab_2
+      MYSQL_USER: myuser
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+    ports:
+      - "127.0.0.1:3307:3306"
+    volumes:
+      - ./db/sql:/sql   
+    command: --init-file /sql/dropfaci_arpab_2.sql
+
+  backend:
+    build:
+      context: ./backend
+    environment:
+      DB_HOST: db
+      DB_USER: root
+      DB_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      DB_NAME: dropfaci_arpab_2
+    depends_on:
+      - db
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        CONFIGURATION: ${CONFIGURATION}
+    environment:
+      BACKEND_HOST: backend
+    ports:
+      - "443:4443"
+      - "80:8080"
+    volumes:
+      - ./frontend/ssl:/etc/nginx/ssl
+    depends_on:
+      - backend
+
+volumes:
+  db_data:

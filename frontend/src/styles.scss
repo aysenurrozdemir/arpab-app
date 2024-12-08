@@ -1,0 +1,383 @@
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$primeng-quickstart-cli-primary: mat.define-palette(mat.$indigo-palette);
+$primeng-quickstart-cli-accent: mat.define-palette(mat.$pink-palette, A200, A100, A400);
+
+// The warn palette is optional (defaults to red).
+$primeng-quickstart-cli-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$primeng-quickstart-cli-theme: mat.define-light-theme((
+  color: (
+    primary: $primeng-quickstart-cli-primary,
+    accent: $primeng-quickstart-cli-accent,
+    warn: $primeng-quickstart-cli-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($primeng-quickstart-cli-theme);
+
+/*!* You can add global styles to this file, and also import other style files *!*/
+
+/*$gutter: 1rem;*/
+@import "assets/layout/styles/layout/layout.scss";
+
+/* PrimeNG */
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+@import 'primeng/resources/themes/saga-blue/theme.css';
+@import "../node_modules/bootstrap-icons/font/bootstrap-icons.css";
+/* Demos */
+@import "assets/demo/styles/flags/flags.css";
+@import "assets/demo/styles/badges.scss";
+@import "assets/demo/styles/code.scss";
+
+:host ::ng-deep.layout-sidebar {
+    //background-color: #e0ffdf;
+    background-color: #180f0ffa;
+}
+
+.pi.pi-home {
+    color: white; /* Set the color to blue */
+    //font-size: 20px; /* Set the font size to 100px */
+}
+
+:host ::ng-deep .p-dialog .product-image {
+    width: 150px;
+    margin: 0 auto 2rem auto;
+    display: block;
+}
+
+::ng-deep #events > div::after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+::ng-deep #events #clear {
+    float: right;
+}
+
+::ng-deep #events .caption {
+    float: left;
+    font-weight: bold;
+    font-size: 115%;
+    line-height: 115%;
+    padding-top: 7px;
+}
+
+::ng-deep #events ul {
+    list-style: none;
+    max-height: 100px;
+    overflow: auto;
+    margin: 0;
+}
+
+::ng-deep #events ul li {
+    padding: 7px 0;
+    border-bottom: 1px solid #ddd;
+}
+
+::ng-deep #events ul li:last-child {
+    border-bottom: none;
+}
+
+:host .user-form {
+    width: 30%;
+}
+
+:host .p-inputtext {
+    width: 100%;
+}
+
+.layout-topbar {
+    display: flex;
+    align-items: center; /* Vertically center items */
+    justify-content: space-between; /* Distribute items evenly along the main axis */
+    padding: 0 16px; /* Add padding to adjust spacing */
+    background-color: rgb(25,25,112);
+}
+
+//.layout-topbar-center {
+//    text-align: center; /* Center text horizontally */
+//}
+
+.layout-topbar-center h2 {
+    margin-bottom: 0.5rem; /* Adjust spacing between heading and paragraph */
+}
+
+.fullscreen-button {
+    margin-right: 1rem; /* Adjust margin as needed */
+}
+
+.fullscreen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 9999;
+    background-color: #fff;
+}
+
+::ng-deep .p-orderlist .p-orderlist-controls {
+    display: none;
+}
+
+::ng-deep .pi.pi-tag {
+    display: none; /* Hide the element with class pi-tag */
+}
+
+.p-button-search {
+    background-color: white;
+    color: gray;
+    width: 50px !important;
+}
+
+.hide-list {
+    float: inline-end;
+    padding-top: 230px;
+    color: white;
+}
+
+.hide-list-after {
+    float: inline-end;
+    padding-top: 105px;
+    color: white;
+}
+.p-multiselect {
+    width: 100%!important;
+}
+.top-all-page{
+    margin-top: 1.25rem;
+}
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+table th {
+    text-align: center;
+    background-color: rgb(25,25,112)!important;
+    color: white!important;
+    // font-size: small!important;
+    font-weight: 600;
+}
+table thead{
+    position: sticky!important;
+    top: 0!important;
+    z-index: 10!important;
+}
+.p-scrollpanel-content {
+    padding: 0!important;
+}
+table th p{
+    color: white!important;
+    //font-size: 16px!important;
+    font-weight: 600;
+    padding: 0 1rem !important;
+}
+@media (max-width: 768px) {
+    .p-dialog {
+        width: 90vw !important;  /* Daha küçük ekranlarda genişlik */
+        max-width: 100% !important;  /* Maksimum genişlik */
+    }
+
+    .p-dialog .p-dialog-content {
+        height: 80vh;
+    }
+    .custom-confirm-dialog {
+        height: 220px !important;  /* Adjust height as needed */
+    }
+}
+@media (min-width: 769px) {
+    .p-dialog {
+        max-width: 2000px !important;  /* Maksimum genişlik */
+        max-height: 1000px !important;  /* Daha küçük ekranlarda yüksekliği ayarla */
+    }
+
+    .p-dialog .p-dialog-content {
+        max-height: 1000px !important;
+        height: 600px;
+    }
+}
+
+.layout-main {
+    max-height: 1500px!important;
+}
+///* WebKit tarayıcılar (Chrome, Safari) için kaydırma çubuğu stili */
+//.custom-table::-webkit-scrollbar {
+//    width: 1px; /* Kaydırma çubuğunun genişliği */
+//    height: 1px; /* Kaydırma çubuğunun yüksekliği (yatay kaydırma) */
+//}
+//
+//.custom-table::-webkit-scrollbar-track {
+//    background: transparent; /* Kaydırma çubuğunun arka planı */
+//}
+//
+//.custom-table::-webkit-scrollbar-thumb {
+//    background: rgba(0, 0, 0, 0.2); /* Kaydırma çubuğunun rengi */
+//    border-radius: 1px; /* Kaydırma çubuğunun köşe yuvarlama */
+//}
+//
+//.custom-table::-webkit-scrollbar-thumb:hover {
+//    background: rgba(0, 0, 0, 0.4); /* Kaydırma çubuğunun üzerine gelindiğinde rengi */
+//}
+//
+///* Firefox için kaydırma çubuğu stili */
+//.custom-table {
+//    scrollbar-width: thin; /* Kaydırma çubuğunun ince olmasını sağlar */
+//    scrollbar-color: rgba(0, 0, 0, 0.2) transparent; /* Kaydırma çubuğunun rengi ve arka planı */
+//    max-height: 700px; /* Table height */
+//    overflow-y: auto;
+//}
+
+::ng-deep .p-datatable .p-datatable-thead > tr > th {
+    padding: 0 1rem !important;
+}
+.ui-tooltip {
+    background-color: #555;
+    color: white;
+    border-radius: 4px;
+    padding: 8px;
+    font-size: 14px;
+    opacity: 1 !important; /* Override any opacity settings */
+}
+
+.ui-tooltip .ui-tooltip-text {
+    white-space: nowrap; /* Prevent text from wrapping */
+}
+::ng-deep .p-component {
+    font-size: 1rem;
+}
+//::ng-deep .p-datatable>.p-datatable-wrapper {
+//    overflow: visible!important;
+//}
+
+::ng-deep .p-datatable .p-datatable-tbody > tr > td {
+    text-align: left;
+    border: 1px solid !important;
+    border-width: 0 0 1px 0;
+    padding: 0.3rem !important; /* Riduce il padding tra le celle */
+}
+
+body .p-scrollpanel .p-scrollpanel-bar {
+    background: rgb(25, 25, 112) !important;
+    border: 0 none !important;
+}
+.p-datatable > .p-datatable-wrapper {
+    overflow: initial !important;
+}
+.p-fluid .p-inputtext {
+    max-width: 350px;
+    min-width: 100px;
+}
+.p-column-filter-row .p-column-filter-clear-button {
+    display: none;
+}
+.custom-table .p-expanded-row {
+    width: inherit; /* inherit width from the table */
+}
+
+.custom-table-wrapper {
+    max-height: 70vh; /* Adatta in base all'altezza della finestra */
+    overflow-y: auto; /* Scroll verticale */
+    overflow-x: auto; /* Scroll orizzontale */
+}
+
+/* Hide the page numbers, rows per page dropdown, and navigation buttons */
+.p-paginator .p-dropdown{
+    display: none;
+}
+
+/* Align the paginator info to the right */
+.custom-paginator-top-right {
+    display: inline-flex;
+    justify-content: flex-end; /* Aligns the content to the right */
+    margin-bottom: 10px; /* Optional: Adds space between the paginator and the table */
+}
+
+.custom-paginator-top-right .p-paginator-current {
+    margin-right: 10px; /* Adjust the margin if needed */
+}
+
+:host ::ng-deep .p-dialog .p-dialog-header {
+    background: midnightblue!important;
+    color: white;
+}
+.p-dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    background: rgb(25,25,112)!important;
+    color: white;
+}
+.p-dialog .p-dialog-header .p-dialog-title {
+    color: white;
+}
+//.pi {
+//    color: white!important;
+//}
+.p-dropdown .p-dropdown-label.p-placeholder {
+    font-size: 11px!important;
+}
+.p-dropdown {
+    width: 100%;
+}
+.spinner-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; /* Üstte olması için */
+}
+
+.spinner {
+    border: 8px solid rgba(0, 0, 0, 0.1);
+    border-top: 8px solid #3498db; /* Spinner rengini ayarlayın */
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.p-datatable-tbody td{
+    border: 0.5px solid black !important;
+}
+
+.p-datatable-thead th{
+    border: 0.5px solid black !important;
+}
+
+.p-datatable-thead{
+    font-size: small !important;
+}
+
+.p-datatable-tbody{
+    font-size: smaller !important;
+}

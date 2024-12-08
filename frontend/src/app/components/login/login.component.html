@@ -1,0 +1,16 @@
+<div class="login-container">
+    <h2>ARPAB APP</h2>
+    <h2>LOGIN</h2>
+    <form #loginForm="ngForm" (ngSubmit)="login()">
+        <div class="p-field">
+            <label for="username" style="color: #ffffff;">Username</label>
+            <input [(ngModel)]="username" id="username" name="username" pInputText required type="text">
+        </div>
+        <div class="p-field">
+            <label for="password" style="color: #ffffff;">Password</label>
+            <input [(ngModel)]="password" id="password" name="password" pPassword required type="password">
+        </div>
+        <button [disabled]="!username || !password" [routerLink]="'/dashboard'" class="p-button-primary" label="Login"
+                pButton></button>
+    </form>
+</div>

@@ -1,0 +1,70 @@
+<div class="top-all-page">
+    <div style="display: inline-flex;">
+        <span class="pi pi-home" routerLink="/dashboard"></span>
+    </div>
+    <span class="font-medium ml-2">/ Esporta Documenti </span>
+    </div>
+<p-card>
+    <h1>SCEGLI IL DOCUMENTO DA CREARE</h1>
+    <h4 style="text-align: center;">Seleziona cosa vuoi esportare indicando numero protocollo o codice sito gestore</h4>
+    <div class="file-upload-container" style="display: flex;margin-top: 10px">
+        <label class="custom-file-input">
+            <input type="text" [(ngModel)]="numeroProtocollo" placeholder="INSERISCI NUMERO PROTOCOLLO PER GENERARE LA NOTE DIGOS">
+        </label>
+        <div>
+            <button [disabled]="!numeroProtocollo" class="carica-button p-button p-button-info p-button-sm" (click)="downloadNumeroProtocolloFile(numeroProtocollo)">CREA NOTA DIGOS</button>
+        </div>
+    </div>
+    <div class="file-upload-container" style="display: flex;margin-top: 10px">
+        <label class="custom-file-input">
+            <input type="text" [(ngModel)]="numeroCodiceSito" placeholder="INSERISCI NUMERO CODICE SITO PER PARERE">
+        </label>
+        <div>
+            <button [disabled]="!numeroCodiceSito" class="carica-button p-button p-button-info p-button-sm" (click)="downloadNumeroCodiceSitoFile(numeroCodiceSito)">CREA PARERE</button>
+        </div>
+    </div>
+    <div class="file-upload-container" style="display: flex;margin-top: 10px">
+        <label class="custom-file-input">
+            <input type="text" [(ngModel)]="numeroCodiceSitoPerSoprolluogo" placeholder="INSERISCI NUMERO CODICE SITO PER PARERE SOPROLLLUOGO">
+        </label>
+        <div>
+            <button [disabled]="!numeroCodiceSitoPerSoprolluogo" class="carica-button p-button p-button-info p-button-sm" (click)="downloadNumeroCodiceSitoPerSoprolluogoFile(numeroCodiceSitoPerSoprolluogo)">CREA PARERE CON SOPROLLLUOGO</button>
+        </div>
+    </div>
+    <div class="file-upload-container" style="display: flex;margin-top: 10px">
+        <label class="custom-file-input">
+            <input type="text" [(ngModel)]="numeroCodiceSitoPerVincolata" placeholder="INSERISCI NUMERO CODICE SITO PER PARERE VINCOLATA">
+        </label>
+        <div>
+            <button [disabled]="!numeroCodiceSitoPerVincolata" class="carica-button p-button p-button-info p-button-sm" (click)="downloadNumeroCodiceSitoPerVincolataFile(numeroCodiceSitoPerVincolata)">CREA PARERE VINCOLATA</button>
+        </div>
+    </div>
+    <div class="file-upload-container" style="display: flex;margin-top: 10px">
+        <label class="custom-file-input">
+            <input type="text" [(ngModel)]="numeroCodiceSitoPerRichiesta" placeholder="INSERISCI NUMERO CODICE SITO PER LA RICHIESTA INTEGRAZIONI">
+        </label>
+        <div>
+            <button [disabled]="!numeroCodiceSitoPerRichiesta" class="carica-button p-button p-button-info p-button-sm" (click)="downloadNumeroCodiceSitoPerRichiestaFile(numeroCodiceSitoPerRichiesta)">CREA RICHIESTA INTEGRAZIONI</button>
+        </div>
+    </div>
+    <div class="file-upload-container" style="display: flex;margin-top: 10px">
+        <label class="custom-file-input">
+            <input type="text" [(ngModel)]="codiceSitoPerRapportoDiMisura" placeholder="INSERISCI CODICE SITO GESTORE PER GENERARE IL RAPPORTO DI MISURA">
+        </label>
+        <div>
+            <button [disabled]="!codiceSitoPerRapportoDiMisura" class="carica-button p-button p-button-info p-button-sm" (click)="downloadCodiceSitoPerRapportoDiMisuraFile(codiceSitoPerRapportoDiMisura)">CREA RAPPORTO DI MISURA</button>
+        </div>
+    </div>
+    <div class="file-upload-container" style="display: flex;margin-top: 10px">
+        <label class="custom-file-input">
+            <input type="text" [(ngModel)]="fatturazioneDaCompletare" placeholder="NOTE DI FATTURAZIONE DA COMPLETARE">
+        </label>
+        <div>
+            <button [disabled]="!fatturazioneDaCompletare" class="carica-button p-button p-button-info p-button-sm" (click)="downloadFatturazioneDaCompletareFile(fatturazioneDaCompletare)">CREA FATTURAZIONE DA COMPLETARE</button>
+        </div>
+    </div>
+</p-card>
+
+<p-confirmDialog class="custom-confirm-dialog" [style]="{width: '200px', height: '180px'}"></p-confirmDialog>
+
+

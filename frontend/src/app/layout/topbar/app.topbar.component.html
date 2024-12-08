@@ -1,0 +1,75 @@
+<div class="layout-topbar col-xl-6 col-lg-6 col-md-12 col-sm-12 mb-4" style="height: 50px;max-height: 50px;">
+    <div style="display: inline-flex">
+        <button #menubutton (click)="layoutService.onMenuToggle()" class="p-link layout-menu-button layout-topbar-button mt-2">
+            <i style="margin-top: 13px; font-size: 1.25rem;" class="pi pi-bars"></i>
+        </button>
+
+        <div  class="layout-topbar-center">
+            <h2 style="height: 40px; width: 180px;margin-left: .1rem;color:white">APP ARPAB</h2>
+        </div>
+    </div>
+
+    <div *ngIf="isWideScreen || layoutService.isDesktop()" style="width:70%" >
+        <div style="display:flex; flex-direction:column;color:white;align-items: center;">
+            <h2 style="margin:0; padding:0">
+                APP ARPAB - UFFICIO CEM
+            </h2>
+            <h3 style="margin:0; padding:0;color: lightslategray;">
+                Pannello di Amministrazione
+            </h3>
+        </div>
+    </div>
+    <div>
+        <button *ngIf="isWideScreenProfileSidebar || layoutService.isMobile()"  #topbarmenubutton (click)="showProfileSidebar()"
+                class="p-link overlay layout-topbar-menu-button layout-topbar-button">
+            <i class="pi pi-ellipsis-v"></i>
+        </button>
+    </div>
+
+    <div *ngIf="!isWideScreenProfileSidebar && layoutService.isDesktop()" style="margin-left: 0;display:flex; flex-direction:column;"
+         class="layout-topbar-menu">
+        <div class="topbar-buttons">
+            <button class="p-link layout-topbar-button">
+                <i class="pi pi-calendar pt-2"></i>
+<!--                Calendario-->
+            </button>
+            <button [routerLink]="''" class="p-link layout-topbar-button">
+                <i class="pi pi-cog pt-2"></i>
+<!--                Impostazioni-->
+            </button>
+            <button class="p-link layout-topbar-button" (click)="logout()">
+                <i class="pi pi-sign-out pt-2"></i>
+<!--                Logout-->
+            </button>
+        </div>
+        <div class="topbar-buttons">
+            <button class="p-link layout-topbar-button">
+<!--                <i class="pi pi-user"></i>-->
+                {{userName}}
+            </button>
+        </div>
+    </div>
+    <div *ngIf="showOverlay && isWideScreenProfileSidebar && layoutService.isMobile" style="margin-left: 0;display:flex; flex-direction:column"
+         class="layout-topbar-menu">
+        <div class="topbar-buttons">
+            <button class="p-link layout-topbar-button">
+                <i class="pi pi-calendar pt-2"></i>
+                                Calendario
+            </button>
+            <button [routerLink]="''" class="p-link layout-topbar-button">
+                <i class="pi pi-cog pt-2"></i>
+                                Impostazioni
+            </button>
+            <button class="p-link layout-topbar-button" (click)="logout()">
+                <i class="pi pi-sign-out pt-2"></i>
+                                Logout
+            </button>
+        </div>
+        <div class="topbar-buttons">
+            <button class="p-link layout-topbar-button">
+                <!--                <i class="pi pi-user"></i>-->
+                {{userName}}
+            </button>
+        </div>
+    </div>
+</div>

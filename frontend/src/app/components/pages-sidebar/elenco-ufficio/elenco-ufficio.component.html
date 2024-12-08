@@ -1,0 +1,254 @@
+ <div class="top-all-page">
+    <div style="display: inline-flex;">
+        <span class="pi pi-home" routerLink="/dashboard"></span>
+    </div>
+    <span class="font-medium ml-2">/Elenco Gestori Ufficio </span>
+</div>
+
+<p-toolbar styleClass="mb-4" class="col-12">
+    <ng-template pTemplate="left">
+        <button pButton pRipple style="max-width: 250px; font-size: 11px" label="AGGIUNGI NUOVO" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewData()"></button>
+        <button pButton pRipple style="max-width: 40px; font-size: 11px" [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDatas()" [disabled]="!selectedDatas || !selectedDatas.length"></button>
+    </ng-template>
+
+    <ng-template pTemplate="center">
+        <div class="search-container">
+        <span class="p-input-icon-left" style="max-width: 400px;">
+            <i class="pi pi-search" style="margin-right: 5px;"></i>
+            <input style="background-color: white;" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                   placeholder="Ricerca Numcodprog"
+                   class="search-input"/>
+        </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="right" >
+        <!--        <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>-->
+        <button pButton pRipple label="Esporta Excel (Selezionato)" icon="pi pi-file-pdf" class="p-button-help p-button-sm mr-2" style="max-width: 250px" (click)="selectedExportExcel()"></button>
+
+        <button pButton pRipple label="Esporta Excel (Tutto)" icon="pi pi-file-excel" class="p-button-help p-button-sm" style="max-width: 200px" (click)="exportExcelAll()"></button>
+        <div class="custom-paginator-top ml-3">
+            <div class="p-d-flex p-jc-between p-ai-center">
+                <div class="p-d-flex p-ai-center">
+                    <label style="font-size: 16px; font-weight:600" for="rowsPerPage">Risultati: </label>
+                    <p-dropdown id="rowsPerPage" [options]="[5, 10, 20, 50]" [(ngModel)]="dt.rows"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toolbar>
+
+<p-scrollPanel [style]="{ width: '100%', height: '70vh' }">
+    <p-table appTranslateFilter #dt [value]="datas" [rows]="10" [paginator]="true" [globalFilterFields]="['numcodprog']"
+             [(selection)]="selectedDatas" [rowHover]="true" dataKey="numcodprog"
+             currentPageReportTemplate="Risultati {first} a {last} di {totalRecords}"  [showCurrentPageReport]="true"
+             [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-gridlines" class="custom-table">
+        <ng-template pTemplate="header">
+            <tr style="background-color: blue;">
+<!--                <th style="text-align: center;background-color: lightgray">-->
+<!--                </th>-->
+                <th style="text-align: center;background-color: lightgray">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="text-align: center;background-color: lightgray; padding: 0 5rem 0 5rem;">
+                    <p style="display: inline-flex"></p>
+                </th>
+                <th pSortableColumn="numcodcar" style="text-align: center;background-color: lightgray">
+                    Numero Codice Progetto <p-sortIcon field="numcodprog"></p-sortIcon>
+                </th>
+                <th pSortableColumn="denominazione" style="text-align: center;background-color: lightgray">
+                    Denominazione <p-sortIcon field="denominazione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="gestore" style="text-align: center;background-color: lightgray">
+                    Gestore <p-sortIcon field="gestore"></p-sortIcon>
+                </th>
+                <th pSortableColumn="cup" style="text-align: center;background-color: lightgray">
+                    Cup <p-sortIcon field="cup"></p-sortIcon>
+                </th>
+                <th pSortableColumn="dataatt" style="text-align: center;background-color: lightgray">
+                    Data Atto <p-sortIcon field="dataatt"></p-sortIcon>
+                </th>
+                <th pSortableColumn="numatt" style="text-align: center;background-color: lightgray">
+                    Numero Atto <p-sortIcon field="numatt"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tipatt" style="text-align: center;background-color: lightgray">
+                    Tipo Atto <p-sortIcon field="tipatt"></p-sortIcon>
+                </th>
+            </tr>
+            <tr>
+<!--                <th style="background-color: lightgray"></th>-->
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numcodprog"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="denominazione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="gestore"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="cup"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="dataatt"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numatt"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="tipatt"></p-columnFilter>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nessun risultato trovato</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+<!--                <td style="text-align: center;">-->
+<!--                    <button type="button" pButton pRipple [pRowToggler]="data" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>-->
+<!--                </td>-->
+                <td style="text-align: center;"> <!-- Center align data -->
+                    <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primary mr-2" (click)="showData(data)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editData(data)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteData(data)"></button>
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numcodprog}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.denominazione}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.gestore}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.cup}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.dataatt | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numatt}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.tipatt}}
+                </td>
+            </tr>
+        </ng-template>
+
+    </p-table>
+ </p-scrollPanel>
+
+
+ <!-- FORM POPUP KISMI-->
+ <p-dialog [(visible)]="newDialog || dataDialog" [style]="{width: '1000px'}" header="Add & Update Data" [modal]="true"
+           [maximizable]="false" [closable]="false"
+           (onHide)="onHideDialog()">
+     <ng-template pTemplate="header">
+         <div class="p-dialog-header">
+             <span class="p-dialog-title">Aggiungi e Aggiorna dati</span>
+             <div class="p-dialog-header-icons">
+                 <button type="button" class="p-dialog-header-icon p-link custom-maximize-button" (click)="maximizeDialog()">
+                     <span class="pi pi-window-maximize"></span>
+                 </button>
+                 <button type="button" class="p-dialog-header-icon p-link custom-close-button" (click)="hideDataDialog()">
+                     <span class="pi pi-times"></span>
+                 </button>
+             </div>
+         </div>
+     </ng-template>
+    <form [formGroup]="dataForm" (ngSubmit)="saveData()" novalidate class="form-dialog">
+        <div class="field">
+            <label for="numcodprog" class="block">Numero Codice Progetto</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="numcodprog" />
+        </div>
+        <div class="field">
+            <label for="denominazione" class="block">Denominazione</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="denominazione" />
+        </div>
+        <div class="field">
+            <label for="gestore" class="block">Gestore</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="gestore" />
+        </div>
+        <div class="field">
+            <label for="cup" class="block">Cup</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="cup" />
+        </div>
+        <div class="field">
+            <label for="dataatt" class="block">Data Atto</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="dataatt" dateFormat="dd-mm-yy" [showIcon]="true" ></p-calendar>
+        </div>
+        <div class="field">
+            <label for="numatt" class="block">Numero Atto</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="numatt" />
+        </div>
+        <div class="field">
+            <label for="tipatt" class="block">Tipo Atto</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="tipatt" />
+        </div>
+
+        <div class="actions">
+            <button pButton type="button" label="Annulla" style="background-color: red;" (click)="hideDataDialog()"></button>
+            <button pButton type="submit" label="Invia" style="background-color: green;" [disabled]="dataForm.invalid"></button>
+        </div>
+
+    </form>
+</p-dialog>
+
+<!-- VIEW POP UP - EYE-ICON-->
+<p-dialog  [(visible)]="dataShowDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+           [style]="dialogStyles"
+           [contentStyle]="dialogContentStyles">
+    <div style="overflow-y: auto;">
+        <table class="vertical-table" style="width: 100%">
+            <tbody>
+            <tr>
+                <td class="numcodprog">Numero Codice Progetto</td>
+                <td style="white-space: normal;">{{selectedData?.numcodprog}}</td>
+            </tr>
+            <tr>
+                <td class="denominazione">Denominazione</td>
+                <td style="white-space: normal;">{{selectedData?.denominazione}}</td>
+            </tr>
+            <tr>
+                <td class="gestore">Gestore</td>
+                <td style="white-space: normal;">{{selectedData?.gestore}}</td>
+            </tr>
+            <tr>
+                <td class="cup">Cup</td>
+                <td style="white-space: normal;">{{selectedData?.cup}}</td>
+            </tr>
+            <tr>
+                <td class="dataatt">Data Atto</td>
+                <td style="white-space: normal;">{{selectedData?.dataatt | date:'dd-MM-yyyy'}}</td>
+            </tr>
+            <tr>
+                <td class="numatt">Numero Atto</td>
+                <td style="white-space: normal;">{{selectedData?.numatt}}</td>
+            </tr>
+            <tr>
+                <td class="tipatt">Tipo Atto</td>
+                <td style="white-space: normal;">{{selectedData?.tipatt}}</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="actions">
+            <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;"
+                    pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneData()"></button>
+            <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;"
+                    pButton type="button" label="Annulla" (click)="hideShowDialog()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog class="custom-confirm-dialog" [style]="{width: '450px', height: '220px'}"></p-confirmDialog>

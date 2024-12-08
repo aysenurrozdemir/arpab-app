@@ -1,0 +1,53 @@
+p-fileUpload {
+    margin: 20px;
+    display: block;
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+}
+.pi.pi-home {
+    color: blue; /* Set the color to blue */
+    font-size: 20px; /* Set the font size to 100px */
+}
+.file-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 8px;
+    height: 50px;
+    max-height: 70px;
+}
+
+.file-item button {
+    margin-left: 8px;
+}
+.file-upload-container {
+    gap: 10px;
+    display: flex;
+    justify-content: space-between;
+}
+.custom-file-input {
+    display: inline-block;
+    width: 100%;
+    padding-top: 3px;
+}
+
+.custom-file-input input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 15px;
+    box-sizing: border-box;
+}
+.carica-button {
+    background-color: rgb(25, 25, 112);
+    height: 50px;
+    max-height: 50px;
+    align-content: center;
+    text-align: center;
+    width: 200px;
+    place-content: center;
+    cursor: pointer;
+}

@@ -1,0 +1,128 @@
+<div class="dashboard-container">
+    <h2>ARPAB GESTIONE PROTOCOLLI</h2>
+    <p>AMBIENTE DI COLLAUDO</p>
+
+    <div class="card-container">
+        <!-- Card 1 -->
+        <div class="card">
+            <div class="card-content">
+                <img src="assets/arpab-assets/importgeos.png" alt="importgeos">
+                <div class="card-text">
+                    <h3>IMPORTA DA GEOS</h3>
+                </div>
+                <div class="card-button-container">
+                    <button class="card-button"  [routerLink]="'/importdoc'">UPLOAD</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-content">
+                <img src="assets/arpab-assets/protgeos.png" alt="protgeos">
+                <div class="card-text">
+                    <h3>VEDI PROTOCOLLI GEOS</h3>
+                </div>
+                <div class="card-button-container">
+                    <button class="card-button"  [routerLink]="'/protocollogeos'">VEDI</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-content">
+                <img src="assets/arpab-assets/protcem.jpg" alt="protcem">
+                <div class="card-text">
+                    <h3>GESTIONE PROTOCOLLI</h3>
+                </div>
+                <div class="card-button-container">
+                    <button class="card-button"  [routerLink]="'/protocollocem'">VEDI</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-content">
+                <img src="assets/arpab-assets/export.png" alt="export">
+                <div class="card-text">
+                    <h3>ESPORTA DOCUMENTI</h3>
+                </div>
+                <div class="card-button-container">
+                    <button class="card-button"  [routerLink]="'/exportdoc'">ESPORTA</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-content">
+                <img src="assets/arpab-assets/strumcem.png" alt="strumcem">
+                <div class="card-text">
+                    <h3>ELENCO STRUMENTI CEM</h3>
+                </div>
+                <div class="card-button-container">
+                    <button  [routerLink]="'/strumenticem'" class="card-button">VEDI</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-content">
+                <img src="assets/arpab-assets/gestoricem.png" alt="gestoricem">
+                <div class="card-text">
+                    <h3>VEDI GESTORI</h3>
+                </div>
+                <div class="card-button-container">
+                    <button  [routerLink]="'/codicesitogestori'" class="card-button">VEDI</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-content">
+                <img src="assets/arpab-assets/calendar.jpg" alt="calendar">
+                <div class="card-text">
+                    <h3>CALENDARIO</h3>
+                </div>
+                <div class="card-button-container">
+                    <button class="card-button" (click)="openExternalLinkCalendar()">
+                        ACCEDI AL CALENDARIO
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-content">
+                <img src="assets/arpab-assets/dashboard.png" alt="dashboard">
+                <div class="card-text">
+                    <h3>DASHBOARD 1</h3>
+                </div>
+                <div class="card-button-container">
+                    <button class="card-button" (click)="openExternalLinkDashboard1()">
+                        DASHBOARD 1
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div class="card">
+            <div class="card-content">
+                <img src="assets/arpab-assets/export.png" alt="export">
+                <div class="card-text">
+                    <h3>ESCI</h3>
+                </div>
+                <div class="card-button-container">
+                    <button (click)="logout()" class="card-button">ESCI</button>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

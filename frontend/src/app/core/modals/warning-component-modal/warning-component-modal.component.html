@@ -1,0 +1,13 @@
+<div mat-dialog-title class="select-none" style="display: flex;justify-content: space-between;">
+    <h4 class="flex items-center" [ngClass]="dialogTemplate.headerClass">
+        <mat-icon class="mr-2">{{dialogTemplate.icon}}</mat-icon> {{title}}
+    </h4>
+    <div class="text-right" style="align-self: center; margin-bottom: 20px;">
+        <button [mat-dialog-close]="false">
+            <mat-icon>clear</mat-icon>
+        </button>
+    </div>
+</div>
+<mat-dialog-content>
+    <p [ngClass]="dialogTemplate.contentClass">{{message}}</p>
+</mat-dialog-content>

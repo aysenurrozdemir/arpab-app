@@ -1,0 +1,20 @@
+.layout-main-container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    justify-content: space-between;
+    padding: 2.5rem 0.5rem .5rem 3.8rem;
+    transition: margin-left $transitionDuration;
+    //background-color: rgb(185 206 216);
+}
+
+.layout-main {
+    flex: 1 1 auto;
+    //background-color: rgb(185 206 216);
+}
+
+@media (max-width: 991px) {
+    .layout-main {
+        margin-left: .5rem;
+    }
+}

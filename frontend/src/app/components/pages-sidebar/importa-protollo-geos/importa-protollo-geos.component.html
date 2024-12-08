@@ -1,0 +1,58 @@
+<div class="top-all-page">
+    <div style="display: inline-flex;">
+        <span class="pi pi-home" routerLink="/dashboard"></span>
+    </div>
+    <span class="font-medium ml-2">/ Importa Protocollo Geos </span>
+    </div>
+<p-card>
+    <h1>IMPORTA PROTOCOLLO DA GEOS</h1>
+
+    <div *ngIf="uploadedFiles?.length" class="file-upload-container" style="display: flex; justify-content: space-evenly;margin-top: 30px">
+        <label class="custom-file-upload">
+            <input type="file" #fileInput (change)="onFileSelect($event)" multiple>
+            SELEZIONA IL FILE
+        </label>
+    </div>
+    <div style="display:flex;width: 100%" *ngIf="!uploadedFiles?.length">
+        <div class="file-upload-container" style="display: flex; justify-content: space-evenly;margin-top: 30px;width: 100%">
+            <label class="custom-file-upload">
+                <input type="file" #fileInput (change)="onFileSelect($event)" multiple>
+                SELEZIONA IL FILE
+            </label>
+        </div>
+        <div style="margin-top: 30px;text-align: center;width: 100%">
+            <button style="background-color: rgb(13,202,240);" class="carica-button-top" (click)="goDashboard()">TORNA ALLA HOME</button>
+        </div>
+        <div style="margin-top: 30px;text-align: center;width: 100%;">
+            <button style="background-color: rgb(13,110,253);" class="carica-button-top" (click)="goProtocolliGeos()">VISUALIZZA PROTOCOLLI GEOS</button>
+        </div>
+    </div>
+
+    <ul *ngIf="uploadedFiles?.length">
+        <li style="justify-content: space-between; font-size: 14px;font-weight: 600" *ngFor="let file of uploadedFiles; let i = index" class="file-item">
+            <div>
+                {{ file.name }} - {{ file.size }} bytes
+            </div>
+            <div>
+                <button (click)="deleteFile(i)" style="borderRadius: 3px;width: 85px; height: 30px;font-size: 14px; text-align: center"  class="p-button p-button-danger p-button-sm">ELIMINA</button>
+            </div>
+        </li>
+    </ul>
+    <div style="display:flex;width: 100%" *ngIf="uploadedFiles?.length > 0">
+        <div style="margin-top: 30px;text-align: center;width: 100%">
+            <button class="carica-button" (click)="uploadFiles()">CARICA</button>
+        </div>
+        <div style="margin-top: 30px;text-align: center;width: 100%">
+            <button style="background-color: rgb(13,202,240);" class="carica-button-top" (click)="goDashboard()">TORNA ALLA HOME</button>
+        </div>
+        <div style="margin-top: 30px;text-align: center;width: 100%;">
+            <button style="background-color: rgb(13,110,253);" class="carica-button-top" (click)="goProtocolliGeos()">VISUALIZZA PROTOCOLLI GEOS</button>
+        </div>
+    </div>
+</p-card>
+
+<div *ngIf="isLoading" class="spinner-overlay">
+    <div class="spinner"></div>
+</div>
+
+

@@ -1,0 +1,552 @@
+ <div class="top-all-page">
+    <div style="display: inline-flex;">
+        <span class="pi pi-home" routerLink="/dashboard"></span>
+    </div>
+    <span class="font-medium ml-2">/ Misure CEM </span>
+</div>
+
+<p-toolbar class="col-12">
+    <ng-template pTemplate="left">
+        <button pButton pRipple style="max-width: 250px; font-size: 11px" label="AGGIUNGI NUOVO" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewData()"></button>
+        <button pButton pRipple style="max-width: 40px; font-size: 11px" [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDatas()" [disabled]="!selectedDatas || !selectedDatas.length"></button>
+    </ng-template>
+
+    <ng-template pTemplate="center">
+        <div class="search-container">
+        <span class="p-input-icon-left" style="max-width: 400px;">
+            <i class="pi pi-search" style="margin-right: 5px;"></i>
+            <input style="background-color: white;" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                   placeholder="Ricerca Numero Cod Sito"
+                   class="search-input"/>
+        </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="right" >
+        <!--        <button pButton pRipple label="Export" icon="pi pi-upload" class="p-button-help"></button>-->
+        <button pButton pRipple label="Esporta Excel (Selezionato)" icon="pi pi-file-pdf" class="p-button-help p-button-sm mr-2" style="max-width: 250px" (click)="selectedExportExcel()"></button>
+
+        <button pButton pRipple label="Esporta Excel (Tutto)" icon="pi pi-file-excel" class="p-button-help p-button-sm" style="max-width: 200px" (click)="exportExcelAll()"></button>
+        <div class="custom-paginator-top ml-3">
+            <div class="p-d-flex p-jc-between p-ai-center">
+                <div class="p-d-flex p-ai-center">
+                    <label style="font-size: 16px; font-weight:600" for="rowsPerPage">Risultati: </label>
+                    <p-dropdown id="rowsPerPage" [options]="[5, 10, 20, 50]" [(ngModel)]="dt.rows"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toolbar>
+
+<p-scrollPanel [style]="{ width: '100%', height: '70vh' }">
+    <p-table appTranslateFilter #dt [value]="datas" [rows]="10" [paginator]="true" [globalFilterFields]="['idimiscem']"
+             [(selection)]="selectedDatas" [rowHover]="true" dataKey="idimiscem"
+             currentPageReportTemplate="Risultati {first} a {last} di {totalRecords}"  [showCurrentPageReport]="true"
+             [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-gridlines" class="custom-table">
+        <ng-template pTemplate="header">
+            <tr style="background-color: blue;">
+                <th style="text-align: center;background-color: lightgray">
+                </th>
+                <th style="text-align: center;background-color: lightgray">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="text-align: center;background-color: lightgray; padding: 0 5rem 0 5rem;">
+                    <p style="display: inline-flex"></p>
+                </th>
+                <th pSortableColumn="sopralluogo" style="text-align: center;background-color: lightgray">
+                    Attività <p-sortIcon field="sopralluogo"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tipologia" style="text-align: center;background-color: lightgray">
+                    Tipologia <p-sortIcon field="tipologia"></p-sortIcon>
+                </th>
+                <th pSortableColumn="regione" style="text-align: center;background-color: lightgray">
+                    Regione <p-sortIcon field="regione"></p-sortIcon>
+                </th>
+                <th pSortableColumn="provincia" style="text-align: center;background-color: lightgray">
+                    Provincia <p-sortIcon field="provincia"></p-sortIcon>
+                </th>
+                <th pSortableColumn="comune" style="text-align: center;background-color: lightgray">
+                    Comune <p-sortIcon field="comune"></p-sortIcon>
+                </th>
+                <th pSortableColumn="codsito" style="text-align: center;background-color: lightgray">
+                    Numero Codice Sito <p-sortIcon field="codsito"></p-sortIcon>
+                </th>
+                <th pSortableColumn="data" style="text-align: center;background-color: lightgray">
+                    Data <p-sortIcon field="data"></p-sortIcon>
+                </th>
+                <th pSortableColumn="puntodimisura" style="text-align: center;background-color: lightgray">
+                    Punto Di Misura <p-sortIcon field="puntodimisura"></p-sortIcon>
+                </th>
+                <th pSortableColumn="descpuntomis" style="text-align: center;background-color: lightgray">
+                    Descrizione Punto di Misura <p-sortIcon field="descpuntomis"></p-sortIcon>
+                </th>
+                <th pSortableColumn="latitudine" style="text-align: center;background-color: lightgray">
+                    Latitudine <p-sortIcon field="latitudine"></p-sortIcon>
+                </th>
+                <th pSortableColumn="longitudine" style="text-align: center;background-color: lightgray">
+                    Longitudine <p-sortIcon field="longitudine"></p-sortIcon>
+                </th>
+                <th pSortableColumn="" style="text-align: center;background-color: lightgray">
+                    Quota di misura <p-sortIcon field=""></p-sortIcon>
+                </th>
+                <th pSortableColumn="" style="text-align: center;background-color: lightgray">
+                    Quota s.l.m. base punto di misura <p-sortIcon field=""></p-sortIcon>
+                </th>
+                <th style="text-align: center;background-color: lightgray">
+                    Mostra </th>
+
+
+
+            </tr>
+            <tr>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray"></th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="sopralluogo"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="tipologia"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="regione"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="provincia"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="comune"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="codsito"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="data"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="puntodimisura"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="descpuntomis"></p-columnFilter>
+                </th>
+
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="latitudine"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="longitudine"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field=""></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field=""></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray"></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nessun dato trovato</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td style="text-align: center;">
+                    <button type="button" pButton pRipple [pRowToggler]="data" class="p-button-text p-button-rounded p-button-plain" [icon]="expanded ? 'pi pi-chevron-down' : 'pi pi-chevron-right'"></button>
+                </td>
+                <td style="text-align: center;"> <!-- Center align data -->
+                    <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primary mr-2" (click)="showData(data)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editData(data)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteData(data)"></button>
+                </td>
+                <td style="text-align: center;">
+                    {{data?.sopralluogo}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.tipologia}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.regione}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.provincia}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.comune}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.codsito}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.data | date:'dd-MM-yyyy'}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.puntodimisura}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.descpuntomis}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.latitudine}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.longitudine}}
+                </td>
+
+                <td style="text-align: center;">
+
+                </td>
+                <td style="text-align: center;">
+
+                </td>
+
+                <td style="text-align: center;">
+                    <p-button icon="pi pi-external-link" ariaLabel="all" (click)="navigateTo()"></p-button>
+                </td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="rowexpansion" let-data>
+            <tr>
+    <!--            blue buton olacak-->
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>Modello Strumento:&nbsp;&nbsp;&nbsp;&nbsp;</strong>
+                        <ng-container *ngFor="let modstrum of data?.modstrum">
+                            <button style="margin-right: 5px; margin-bottom: 0;" (click)="getModstrumForClickedPopup(modstrum)" pButton type="button" icon="pi pi-external-link" label="{{ modstrum }}" style="margin-right: 5px; margin-bottom: 5px;"></button>
+                        </ng-container>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>Sonda Collegata:&nbsp;&nbsp;&nbsp;&nbsp;</strong>{{ data?.sonda }}
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="12">
+                    <div class="expanded-row">
+                        <strong>Taratura Strumento:&nbsp;&nbsp;&nbsp;&nbsp;</strong>{{ data?.tartstrum }}
+                    </div>
+                </td>
+            </tr>
+        </ng-template>
+
+    <!--    <ng-template pTemplate="summary">-->
+    <!--        <div class="flex align-items-center justify-content-between">-->
+    <!--            Ci sono {{datas ? datas.length : 0 }} risultati in totale-->
+    <!--        </div>-->
+    <!--    </ng-template>-->
+
+    </p-table>
+ </p-scrollPanel>
+
+ <!-- dataModstrumPopupDialog POP UPI gosterme-->
+ <p-dialog [(visible)]="dataModstrumPopupDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body" [style]="{width: '700px'}" [contentStyle]="{height: '600px'}">
+     <div>
+         <table class="vertical-table" width="95%">
+             <tbody>
+             <tr>
+                 <td class="altrenote">altrenote</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.altrenote}}</td>
+             </tr>
+             <tr>
+                 <td class="certificatotaratura">certificatotaratura</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.certificatotaratura}}</td>
+             </tr>
+             <tr>
+                 <td class="datascadenza">datascadenza</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.datascadenza | date: 'dd:MM:yyyy'}}</td>
+             </tr>
+             <tr>
+                 <td class="datataratura">datataratura</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.datataratura | date: 'dd:MM:yyyy'}}</td>
+             </tr>
+             <tr>
+                 <td class="denominazione">denominazione</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.denominazione}}</td>
+             </tr>
+             <tr>
+                 <td class="ditta">ditta</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.ditta}}</td>
+             </tr>
+             <tr>
+                 <td class="legenda">legenda</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.legenda}}</td>
+             </tr>
+             <tr>
+                 <td class="modello">modello</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.modello}}</td>
+             </tr>
+             <tr>
+                 <td class="ninventario">ninventario</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.ninventario}}</td>
+             </tr>
+             <tr>
+                 <td class="note">note</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.note}}</td>
+             </tr>
+             <tr>
+                 <td class="sede">sede</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.sede}}</td>
+             </tr>
+             <tr>
+                 <td class="serialnumber">serialnumber</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.serialnumber}}</td>
+             </tr>
+             <tr>
+                 <td class="sonda">sonda</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.sonda}}</td>
+             </tr>
+             <tr>
+                 <td class="statusstrumento">statusstrumento</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.statusstrumento}}</td>
+             </tr>
+             <tr>
+                 <td class="tipo">tipo</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.tipo}}</td>
+             </tr>
+             <tr>
+                 <td class="ubicazione">ubicazione</td>
+                 <td style="white-space: normal;">{{selectedModstrumPopupData?.ubicazione}}</td>
+             </tr>
+
+             </tbody>
+         </table>
+     </div>
+     <ng-template pTemplate="footer">
+         <div class="actions">
+             <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;" pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneDataModstrumPopup(selectedModstrumPopupData)"></button>
+             <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;" pButton type="button" label="Annulla" (click)="hideModstrumPopupDataDialog()"></button>
+         </div>
+     </ng-template>
+ </p-dialog>
+
+<!-- FORM POPUP KISMI-->
+<p-dialog [(visible)]="newDialog || dataDialog" [style]="{width: '1000px'}" header="Add & Update Data" [modal]="true" [maximizable]="false" [closable]="false" (onHide)="onHideDialog()">
+    <ng-template pTemplate="header">
+        <div class="p-dialog-header">
+            <span class="p-dialog-title">Aggiungi e Aggiorna dati</span>
+            <div class="p-dialog-header-icons">
+                <button type="button" class="p-dialog-header-icon p-link custom-maximize-button" (click)="maximizeDialog()">
+                    <span class="pi pi-window-maximize"></span>
+                </button>
+                <button type="button" class="p-dialog-header-icon p-link custom-close-button" (click)="hideDataDialog()">
+                    <span class="pi pi-times"></span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+    <form [formGroup]="dataForm" (ngSubmit)="saveData()" novalidate class="form-dialog">
+        <div class="field">
+            <label for="sopralluogo" class="block">Attività</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="sopralluogo"  [options]="attivitaOptions"
+                        optionLabel="value" optionValue="value"
+                        [showClear]="true" placeholder="Selezionare">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label for="tipologia" class="block">Tipologia</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="tipologia"  [options]="tipologiaOptions"
+                        optionLabel="value" optionValue="value"
+                        [showClear]="true" placeholder="Selezionare">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label for="regione" class="block">Regione</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="regione"
+                        [options]="regioneOptions"
+                        optionLabel="denominazione"
+                        optionValue="codice"
+                        [showClear]="true"
+                        placeholder="Selezionare"
+                        (onChange)="onRegioneChange($event)">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label for="provincia" class="block">Provincia</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="provincia"
+                        [options]="provinciaOptions"
+                        optionLabel="denominazione"
+                        optionValue="codice"
+                        [showClear]="true"
+                        placeholder="Selezionare"
+                        (onChange)="onProvinciaChange($event)">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label for="comune" class="block">Comune</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="comune"
+                        [options]="comuneOptions"
+                        optionValue="codice"
+                        [showClear]="true"
+                        placeholder="Selezionare">
+            </p-dropdown>
+        </div>
+<!--        <div class="field">-->
+<!--            <label for="codsito" class="block">Numero Codice Sito</label>-->
+<!--            <p-dropdown *ngIf="!isDataReadonly"-->
+<!--                        formControlName="codsito"  [options]="numcodsitoOptions"-->
+<!--                        optionLabel="label" optionValue="value"-->
+<!--                        [showClear]="true" placeholder="Selezionare">-->
+<!--            </p-dropdown>-->
+<!--        </div>-->
+        <div class="field">
+            <label for="codsito" class="block">Numero Cod Sito</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                           formControlName="codsito"  [options]="numcodsitoOptions"
+                           [showClear]="true" placeholder="Selezione Multipla"></p-multiSelect>
+        </div>
+        <div class="field">
+            <label for="data" class="block">Data</label>
+            <p-calendar *ngIf="!isDataReadonly" formControlName="data" dateFormat="dd-mm-yy" [showIcon]="true" ></p-calendar>
+        </div>
+
+        <div class="field">
+            <label for="modstrum" class="block">Modello Strumento</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                           formControlName="modstrum"  [options]="modellostrumOptions"
+                           optionLabel="label" optionValue="value"
+                           [showClear]="true" placeholder="Selezione multipla"></p-multiSelect>
+        </div>
+        <div class="field">
+            <label for="sonda" class="block">Sonda Collegata</label>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="sonda"  [options]="sondaCollegataOptions"
+                        optionLabel="label" optionValue="value"
+                        [showClear]="true" placeholder="Selezionare">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <label for="tartstrum" class="block">Taratura Strumento</label>
+            <p-multiSelect *ngIf="!isDataReadonly"
+                           formControlName="tartstrum"  [options]="taraturastrumOptions"
+                           optionLabel="label" optionValue="value"
+                           [showClear]="true" placeholder="Selezione multipla"></p-multiSelect>
+        </div>
+
+        <div class="field">
+            <label for="puntodimisura" class="block">Punto Di Misura</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="puntodimisura" />
+        </div>
+        <div class="field">
+            <label for="descpuntomis" class="block">Descrizione Punto Di Misura
+                <button disabled="true" class="info-button p-button p-button-info p-button-sm" pTooltip="Se simulato aggiungere S al valore numerico del Puntodimisura" tooltipPosition="top">?</button>
+            </label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="descpuntomis" />
+        </div>
+        <div class="field">
+            <label for="latitudine" class="block">Latitudine</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="latitudine" />
+        </div>
+        <div class="field">
+            <label for="longitudine" class="block">Longitudine</label>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="longitudine" />
+        </div>
+
+        <div class="actions">
+            <button pButton type="button" label="Annulla" style="background-color: red;" (click)="hideDataDialog()"></button>
+            <button pButton type="submit" label="Invia" style="background-color: green;" [disabled]="dataForm.invalid"></button>
+        </div>
+
+    </form>
+</p-dialog>
+
+<!-- VIEW POP UP - EYE-ICON-->
+<p-dialog  [(visible)]="dataShowDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+           [style]="dialogStyles"
+           [contentStyle]="dialogContentStyles">
+    <div style="overflow-y: auto;">
+        <table class="vertical-table" style="width: 100%">
+            <tbody>
+            <tr>
+                <td class="sopralluogo">Attività</td>
+                <td>{{selectedData?.sopralluogo}}</td>
+            </tr>
+            <tr>
+                <td class="tipologia">Tipologia</td>
+                <td>{{selectedData?.tipologia}}</td>
+            </tr>
+            <tr>
+                <td class="regione">Regione</td>
+                <td>{{selectedData?.regione}}</td>
+            </tr>
+            <tr>
+                <td class="provincia">Provincia</td>
+                <td>{{selectedData?.provincia}}</td>
+            </tr>
+            <tr>
+                <td class="comune">Comune</td>
+                <td>{{selectedData?.comune}}</td>
+            </tr>
+            <tr>
+                <td class="codsito">Numero Codice Sito</td>
+                <td>{{selectedData?.codsito}}</td>
+            </tr>
+            <tr>
+                <td class="data">Data</td>
+                <td>{{selectedData?.data | date:'dd-MM-yyyy'}}</td>
+            </tr>
+<!--            MULTIPLE DATA, FIX IT THEN-->
+            <tr>
+                <td class="modstrum">Modello Strumento</td>
+                <td>{{selectedData?.modstrum}}</td>
+            </tr>
+            <tr>
+                <td class="sonda">Sonda Collegata</td>
+                <td>{{selectedData?.sonda}}</td>
+            </tr>
+            <!--            MULTIPLE DATA, FIX IT THEN-->
+            <tr>
+                <td class="tartstrum">Taratura Strumento</td>
+                <td>{{selectedData?.tartstrum}}</td>
+            </tr>
+            <tr>
+                <td class="puntodimisura">Punto Di Misura</td>
+                <td>{{selectedData?.puntodimisura}}</td>
+            </tr>
+            <tr>
+                <td class="descpuntomis">Descrizione Punto di Misura</td>
+                <td>{{selectedData?.descpuntomis}}</td>
+            </tr>
+            <tr>
+                <td class="latitudine">Latitudine</td>
+                <td>{{selectedData?.latitudine}}</td>
+            </tr>
+            <tr>
+                <td class="longitudine">Longitudine</td>
+                <td>{{selectedData?.longitudine}}</td>
+            </tr>
+            <tr>
+                <td class="">Quota di misura</td>
+                <td></td>
+            </tr>
+            <tr>
+                <td class="valeffrmsut">Quota s.l.m. base punto di misura</td>
+                <td></td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="actions">
+            <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;"
+                    pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneData()"></button>
+            <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;"
+                    pButton type="button" label="Annulla" (click)="hideShowDialog()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog class="custom-confirm-dialog" [style]="{width: '450px', height: '220px'}"></p-confirmDialog>

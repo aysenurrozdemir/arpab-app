@@ -1,0 +1,463 @@
+ <div class="top-all-page">
+    <div style="display: inline-flex;">
+        <span class="pi pi-home" routerLink="/dashboard"></span>
+    </div>
+    <span class="font-medium ml-2">/ Scheda RadioElettrica </span>
+</div>
+
+<p-toolbar styleClass="mb-4" class="col-12">
+    <ng-template pTemplate="left">
+        <button pButton pRipple style="max-width: 250px; font-size: 11px" label="AGGIUNGI NUOVO" icon="pi pi-plus" class="p-button-success mr-2" (click)="openNewData()"></button>
+        <button pButton pRipple style="max-width: 40px; font-size: 11px" [label]="Delete" icon="pi pi-trash" class="p-button-danger" (click)="deleteSelectedDatas()" [disabled]="!selectedDatas || !selectedDatas.length"></button>
+    </ng-template>
+
+    <ng-template pTemplate="center">
+        <div class="search-container">
+        <span class="p-input-icon-left" style="max-width: 400px;">
+            <i class="pi pi-search" style="margin-right: 5px;"></i>
+            <input style="background-color: white;" pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')"
+                   placeholder="Ricerca Id Misurazione"
+                   class="search-input"/>
+        </span>
+        </div>
+    </ng-template>
+
+    <ng-template pTemplate="right" >
+        <button pButton pRipple label="Esporta Excel (Selezionato)" icon="pi pi-file-pdf" class="p-button-help p-button-sm mr-2" style="max-width: 250px" (click)="selectedExportExcel()"></button>
+
+        <button pButton pRipple label="Esporta Excel (Tutto)" icon="pi pi-file-excel" class="p-button-help p-button-sm" style="max-width: 200px" (click)="exportExcelAll()"></button>
+        <div class="custom-paginator-top ml-3">
+            <div class="p-d-flex p-jc-between p-ai-center">
+                <div class="p-d-flex p-ai-center">
+                    <label style="font-size: 16px; font-weight:600" for="rowsPerPage">Risultati: </label>
+                    <p-dropdown id="rowsPerPage" [options]="[5, 10, 20, 50]" [(ngModel)]="dt.rows"></p-dropdown>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</p-toolbar>
+
+<p-scrollPanel [style]="{ width: '100%', height: '70vh' }">
+    <p-table appTranslateFilter #dt [value]="datas" [rows]="10" [paginator]="true" [globalFilterFields]="['idmisurazione']"
+             [(selection)]="selectedDatas" [rowHover]="true" dataKey="idmisurazione"
+             currentPageReportTemplate="Risultati {first} a {last} di {totalRecords}"  [showCurrentPageReport]="true"
+             [tableStyle]="{ 'min-width': '75rem' }" styleClass="p-datatable-gridlines" class="custom-table">
+        <ng-template pTemplate="header">
+            <tr style="background-color: blue;">
+                <th style="text-align: center;background-color: lightgray">
+                    <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                </th>
+                <th style="text-align: center;background-color: lightgray; padding: 0 5rem 0 5rem;">
+                    <p style="display: inline-flex"></p>
+                </th>
+                <th style="text-align: center;background-color: lightgray">
+                    Duplica
+                </th>
+                <th pSortableColumn="numcodsito" style="text-align: center;background-color: lightgray">
+                    Numero Cod Sito <p-sortIcon field="numcodsito"></p-sortIcon>
+                </th>
+                <th pSortableColumn="protocollo" style="text-align: center;background-color: lightgray">
+                    Protocollo <p-sortIcon field="protocollo"></p-sortIcon>
+                </th>
+                <th pSortableColumn="sistema" style="text-align: center;background-color: lightgray">
+                    Sistema <p-sortIcon field="sistema"></p-sortIcon>
+                </th>
+                <th pSortableColumn="azimuth" style="text-align: center;background-color: lightgray">
+                    Azimuth [deg] <p-sortIcon field="azimuth"></p-sortIcon>
+                </th>
+                <th pSortableColumn="altcentrele" style="text-align: center;background-color: lightgray">
+                    Altezza Centro Elettrico [m] <p-sortIcon field="altcentrele"></p-sortIcon>
+                </th>
+                <th pSortableColumn="antenna" style="text-align: center;background-color: lightgray">
+                    Antenna <p-sortIcon field="antenna"></p-sortIcon>
+                </th>
+                <th pSortableColumn="altezzaantenna" style="text-align: center;background-color: lightgray">
+                    Altezza Antenna [m] <p-sortIcon field="altezzaantenna"></p-sortIcon>
+                </th>
+                <th pSortableColumn="guadagnoantenna" style="text-align: center;background-color: lightgray">
+                    Guadagno Antenna [dBi] <p-sortIcon field="guadagnoantenna"></p-sortIcon>
+                </th>
+                <th pSortableColumn="tiltmecca" style="text-align: center;background-color: lightgray">
+                    Tilt Meccanico [deg] <p-sortIcon field="tiltmecca"></p-sortIcon>
+                </th>
+                <th pSortableColumn="titltelettr" style="text-align: center;background-color: lightgray">
+                    Tilt Elettrico [deg] <p-sortIcon field="titltelettr"></p-sortIcon>
+                </th>
+                <th pSortableColumn="numerotrx" style="text-align: center;background-color: lightgray">
+                    Numero di Trx [W] <p-sortIcon field="numerotrx"></p-sortIcon>
+                </th>
+                <th pSortableColumn="potmaxsingtrx" style="text-align: center;background-color: lightgray">
+                    Potenza Massima per Singolo Trx [W] <p-sortIcon field="potmaxsingtrx"></p-sortIcon>
+                </th>
+                <th pSortableColumn="potmaxtotant" style="text-align: center;background-color: lightgray">
+                    Potenza Massima Totale in Antenna [W] <p-sortIcon field="potmaxtotant"></p-sortIcon>
+                </th>
+                <th pSortableColumn="attcei" style="text-align: center;background-color: lightgray">
+                    Att. CEI <p-sortIcon field="attcei"></p-sortIcon>
+                </th>
+                <th pSortableColumn="alpha24" style="text-align: center;background-color: lightgray">
+                    ALPHA24 <p-sortIcon field="alpha24"></p-sortIcon>
+                </th>
+                <th pSortableColumn="fattriduz" style="text-align: center;background-color: lightgray">
+                    Fattore di Riduzione (per valore di attenzione) <p-sortIcon field="fattriduz"></p-sortIcon>
+                </th>
+                <th pSortableColumn="pottotantfattrid" style="text-align: center;background-color: lightgray">
+                    Potenza Totale in Antenna con fattore di riduzione per valore di attenzione [W] <p-sortIcon field="pottotantfattrid"></p-sortIcon>
+                </th>
+
+            </tr>
+            <tr>
+                <th style="background-color: lightgray">
+                <th style="background-color: lightgray">
+                <th style="background-color: lightgray">
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numcodsito"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="protocollo"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="sistema"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="azimuth"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="altcentrele"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="antenna"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="altezzaantenna"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="guadagnoantenna"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="tiltmecca"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="titltelettr"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="numerotrx"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="potmaxsingtrx"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="potmaxtotant"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="attcei"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="alpha24"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="fattriduz"></p-columnFilter>
+                </th>
+                <th style="background-color: lightgray">
+                    <p-columnFilter type="text" field="pottotantfattrid"></p-columnFilter>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="5">Nessun dato trovato</td>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-data>
+            <tr>
+                <td style="text-align: center;"> <!-- Center align data -->
+                    <p-tableCheckbox [value]="data"></p-tableCheckbox>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton pRipple icon="pi pi-eye" class="p-button-rounded p-button-primary mr-2" (click)="showData(data)"></button>
+                    <button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="editData(data)"></button>
+                    <button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="deleteData(data)"></button>
+                </td>
+                <td style="text-align: center;">
+                    <button pButton pRipple icon="pi pi-copy" class="p-button-rounded p-button-primary mr-2" (click)="duplicateData(data)"></button>
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numcodsito}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.protocollo}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.sistema}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.azimuth}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.altcentrele}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.antenna}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.altezzaantenna}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.guadagnoantenna}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.tiltmecca}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.titltelettr}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.numerotrx}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.potmaxsingtrx}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.potmaxtotant}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.attcei}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.alpha24}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.fattriduz}}
+                </td>
+                <td style="text-align: center;">
+                    {{data?.pottotantfattrid}}
+                </td>
+            </tr>
+        </ng-template>
+    </p-table>
+ </p-scrollPanel>
+
+<!-- FORM POPUP KISMI-->
+<p-dialog [(visible)]="newDialog || dataDialog" [style]="{width: '800px'}" header="Add & Update Data" [modal]="true"
+          [maximizable]="false" [closable]="false" (onHide)="onHideDialog()">
+    <ng-template pTemplate="header">
+        <div class="p-dialog-header">
+            <span class="p-dialog-title">Aggiungi e Aggiorna dati</span>
+            <div class="p-dialog-header-icons">
+                <button type="button" class="p-dialog-header-icon p-link custom-maximize-button" (click)="maximizeDialog()">
+                    <span class="pi pi-window-maximize"></span>
+                </button>
+                <button type="button" class="p-dialog-header-icon p-link custom-close-button" (click)="hideDataDialog()">
+                    <span class="pi pi-times"></span>
+                </button>
+            </div>
+        </div>
+    </ng-template>
+    <form [formGroup]="dataForm" (ngSubmit)="saveData()" novalidate class="form-dialog">
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="numcodsito" class="block">Numero Cod Sito</label><strong style="color:red">*</strong>
+            </div>
+            <p-dropdown *ngIf="!isDataReadonly"
+                        formControlName="numcodsito"  
+                        [options]="numcodsitoOptions"
+                        [filter]="true"
+                        [showClear]="true" 
+                        placeholder="Selezionare">
+            </p-dropdown>
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="protocollo" class="block">Protocollo</label><strong style="color:red">*</strong>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="protocollo" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="sistema" class="block">Sistema</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="sistema" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="azimuth" class="block">Azimuth [deg]</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="azimuth" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="altcentrele" class="block">Altezza Centro Elettrico [m]</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="altcentrele" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="antenna" class="block">Antenna</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="antenna" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="altezzaantenna" class="block">Altezza Antenna [m]</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="altezzaantenna" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="guadagnoantenna" class="block">Guadagno Antenna [dBi]</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="guadagnoantenna" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="tiltmecca" class="block">Tilt Meccanico [deg]</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="tiltmecca" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="titltelettr" class="block">Tilt Elettrico [deg]</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="titltelettr" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="numerotrx" class="block">Numero Di Trx [W]</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="numerotrx" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="potmaxsingtrx" class="block">Potenza Massima Per Singolo Trx [W]</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="potmaxsingtrx" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="potmaxtotant" class="block">Potenza Massima Totale In Antenna [W] *</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="potmaxtotant" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="attcei" class="block">Att. CEI</label><
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="attcei" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="alpha24" class="block">ALPHA24</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="alpha24" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="fattriduz" class="block">Fattore Di Riduzione (per Valore Di Attenzione)</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="fattriduz" />
+        </div>
+        <div class="field">
+            <div style="display:inline-flex">
+                <label for="pottotantfattrid" class="block">Potenza Totale In Antenna Con Fattore Di Riduzione Per Valore Di Attenzione [W]</label>
+            </div>
+            <input *ngIf="!isDataReadonly" type="text" pInputText formControlName="pottotantfattrid" />
+        </div>
+        <div class="actions">
+            <button pButton type="button" label="Annulla" style="background-color: red;" (click)="hideDataDialog()"></button>
+            <button pButton type="submit" label="Invia" style="background-color: green;" [disabled]="dataForm.invalid"></button>
+        </div>
+
+    </form>
+</p-dialog>
+
+<!-- VIEW POP UP - EYE-ICON-->
+<p-dialog  [(visible)]="dataShowDialog" header="Dettagli dei dati" [resizable]="false" [modal]="true" [maximizable]="true" appendTo="body"
+           [style]="dialogStyles"
+           [contentStyle]="dialogContentStyles">
+    <div style="overflow-y: auto;">
+        <table class="vertical-table" style="width: 100%">
+            <tbody>
+            <tr>
+                <td class="numeroCodSito">Numero Cod Sito</td>
+                <td>{{selectedData?.numcodsito}}</td>
+            </tr>
+            <tr>
+                <td class="protocollo">Protocollo</td>
+                <td>{{selectedData?.protocollo}}</td>
+            </tr>
+            <tr>
+                <td class="sistema">Sistema</td>
+                <td>{{selectedData?.sistema}}</td>
+            </tr>
+            <tr>
+                <td class="azimuth">Azimuth [deg]</td>
+                <td>{{selectedData?.azimuth}}</td>
+            </tr>
+            <tr>
+                <td class="altcentrele">Altezza Centro Elettrico [m]</td>
+                <td>{{selectedData?.altcentrele}}</td>
+            </tr>
+            <tr>
+                <td class="antenna">Antenna</td>
+                <td>{{selectedData?.antenna}}</td>
+            </tr>
+            <tr>
+                <td class="altezzaantenna">Altezza Antenna [m]</td>
+                <td>{{selectedData?.altezzaantenna}}</td>
+            </tr>
+            <tr>
+                <td class="guadagnoantenna">Guadagno Antenna [dBi]</td>
+                <td>{{selectedData?.guadagnoantenna}}</td>
+            </tr>
+            <tr>
+                <td class="tiltmecca">Tilt Meccanico [deg]</td>
+                <td>{{selectedData?.tiltmecca}}</td>
+            </tr>
+            <tr>
+                <td class="titltelettr">Tilt Elettrico [deg]</td>
+                <td>{{selectedData?.titltelettr}}</td>
+            </tr>
+            <tr>
+                <td class="numerotrx">Numero di Trx [W]</td>
+                <td>{{selectedData?.numerotrx}}</td>
+            </tr>
+            <tr>
+                <td class="potmaxsingtrx">Potenza Massima per Singolo Trx [W]</td>
+                <td>{{selectedData?.potmaxsingtrx}}</td>
+            </tr>
+            <tr>
+                <td class="potmaxtotant">Potenza Massima Totale in Antenna [W]</td>
+                <td>{{selectedData?.potmaxtotant}}</td>
+            </tr>
+            <tr>
+                <td class="attcei">Att. CEI</td>
+                <td>{{selectedData?.attcei}}</td>
+            </tr>
+            <tr>
+                <td class="alpha24">ALPHA24</td>
+                <td>{{selectedData?.alpha24}}</td>
+            </tr>
+            <tr>
+                <td class="fattriduz">Fattore di Riduzione (per valore di attenzione)</td>
+                <td>{{selectedData?.fattriduz}}</td>
+            </tr>
+            <tr>
+                <td class="pottotantfattrid">Potenza Totale in Antenna con fattore di riduzione per valore di attenzione [W]</td>
+                <td>{{selectedData?.pottotantfattrid}}</td>
+            </tr>
+
+            </tbody>
+        </table>
+    </div>
+    <ng-template pTemplate="footer">
+        <div class="actions">
+            <button style="width: 120px; height: 30px; background-color: green;margin-top: 20px;padding-bottom: 5px;"
+                    pButton type="button" label="Esporta Excel" (click)="selectedExportExcelForOneData()"></button>
+            <button style="width: 80px; height: 30px; background-color: red;margin-top: 20px;padding-bottom: 10px;"
+                    pButton type="button" label="Annulla" (click)="hideShowDialog()"></button>
+        </div>
+    </ng-template>
+</p-dialog>
+
+<p-confirmDialog class="custom-confirm-dialog" [style]="{width: '450px', height: '220px'}"></p-confirmDialog>
